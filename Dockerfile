@@ -1,4 +1,4 @@
-FROM ruby:2.6-slim
+FROM ruby:2.6-slim as build
 
 WORKDIR /srv/slate
 
@@ -15,6 +15,9 @@ RUN apt-get update \
     && bundle install \
     && apt-get remove -y build-essential \
     && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+   && bundle exec middleman build --clean --verbose --build-dir=/srv/slate./build-output
 
-CMD ["bundle", "exec", "middleman", "server", "--watcher-force-polling"]
+FROM scratch as build-output
+COPY --from=build /srv/slate/build-output . 
+

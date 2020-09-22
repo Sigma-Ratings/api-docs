@@ -1,3 +1,4 @@
+*.swp
 *.gem
 *.rbc
 .bundle
@@ -5,6 +6,7 @@
 coverage
 InstalledFiles
 lib/bundler/man
+out/
 pkg
 rdoc
 spec/reports
