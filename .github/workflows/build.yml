@@ -1,10 +1,9 @@
 name: Build
 
 on:
-  push:
-    branches: [ '*' ]
   pull_request:
-    branches: [ '*' ]
+    branches: 
+      - main
 
 jobs:
   test:
@@ -12,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby-version: [2.3, 2.4, 2.5, 2.6, 2.7]
+        ruby-version: [2.7]
 
     steps:
     - uses: actions/checkout@v2
@@ -28,18 +27,18 @@ jobs:
 
     # necessary to get ruby 2.3 to work nicely with bundler vendor/bundle cache
     # can remove once ruby 2.3 is no longer supported
-    - run: gem update --system
+    #- run: gem update --system
 
-    - run: bundle config set deployment 'true'
+    #- run: bundle config set deployment 'true'
     - run: bundle install
 
-    - run: bundle exec middleman build --clean --build-target=./out
+    - run: bundle exec middleman build --clean --build-dir=./out
     
-    - name: Upload to S3
     - uses: shallwefootball/s3-upload-action@master
+      name: Upload to S3
       id: S3
       with:
-        aws_key_id: ${{ secrets.AWS_KEY_ID }}
+        aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-        aws_bucket: ${{ secrets.AWS_BUCKET }}
+        aws_bucket: ${{ secrets.AWS_S3_BUCKET_STAGING }}
         source_dir: './out'
