@@ -4,7 +4,8 @@ on:
   push:
     branches: [ '*' ]
   pull_request:
-    branches: [ '*' ]
+    branches: 
+      - main
 
 jobs:
   test:
@@ -41,5 +42,5 @@ jobs:
       with:
         aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-        aws_bucket: ${{ secrets.AWS_BUCKET }}
-        source_dir: './out'
+        aws_bucket: ${{ secrets.AWS_S3_BUCKET }}
+        source_dir: './out/index.html'
