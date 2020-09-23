@@ -33,7 +33,7 @@ jobs:
     #- run: bundle config set deployment 'true'
     - run: bundle install
 
-    - run: bundle exec middleman build --clean --build-target=./out
+    - run: bundle exec middleman build --clean --build-dir=./out
     
     - uses: shallwefootball/s3-upload-action@master
       name: Upload to S3
