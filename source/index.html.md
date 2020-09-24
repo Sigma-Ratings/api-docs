@@ -18,11 +18,9 @@ code_clipboard: true
 
 # Introduction
 
-Welcome to the Sigma Ratings API! You can use our API to access entities API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Sigma Ratings API! You can use our API to access entities API endpoints.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+We have language bindings in Shell! You can view code examples in the dark area to the right.
 
 # Overview
 
@@ -30,6 +28,18 @@ _Add overview section here_
 
 
 # Authentication
+
+The Sigma API uses Basic Authentication to access the API. 
+
+You can register a new API key in the authorization section of our [application](https://terminal.com/).
+
+## Basic Authentication
+
+To authorize your request you need to pass in an Authorization header. The following is an example of an Authorization Header:
+
+```bash
+   Authorization: Basic ZGVtbzpwQDU1dzByZA==
+```
 
 > To authorize, use this code:
 
@@ -39,47 +49,20 @@ curl "https://api.sigmaratings.com/v1/search/company""
   -H "Authorization: Basic ZGVtbzpwQDU1dzByZA==""
 ```
 
-
 > Make sure to replace `ZGVtbzpwQDU1dzByZA==` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>"ZGVtbzpwQDU1dzByZA=="</code> with your personal API key.
 </aside>
 
-# Kittens
+# Country Risk 
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Get Country Risk
 
 ```shell
 curl "http://example.com/api/kittens"
   -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
 ```
 
 > The above command returns JSON structured like this:
@@ -103,7 +86,7 @@ let kittens = api.kittens.get();
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves a country risk.
 
 ### HTTP Request
 
