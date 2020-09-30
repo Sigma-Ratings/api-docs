@@ -57,29 +57,32 @@ You must replace <code>"ZGVtbzpwQDU1dzByZA=="</code> with your personal API key.
 ## Risk Scoring
 
 ```shell
-curl "http://example.com/v1/risk/<ID>"
+curl "https://api.sigmaratings.com/v1/risk/<ID>"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+   "score": {
+        "rank": 1,
+        "level": "Severe"
+   },
+   indicator_count: [
+   ],
+   "results": [
+    {
+      "name": "",
+      "type": "",
+      "strength": "",
+      "description": "",
+      "source": "",
+      "indicators": [],
+      "locations": []
+    }
+   ]
+}
 ```
 
 This endpoint retrieves a country risk.
