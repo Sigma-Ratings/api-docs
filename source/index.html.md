@@ -31,11 +31,11 @@ Sigma's Risk Scoring API is Sigma's first API and brings together over 60 propri
 
 The Sigma API uses Basic Authentication to access the API. 
 
-You can register a new API key in the authorization section of our [application](https://terminal.com/).
+To obtain an API key please contact our client support team.
 
 ## Basic Authentication
 
-To authorize your request you need to pass in an Authorization header. The following is an example of an Authorization Header:
+To authorize your request you need to specify a base64 encoded value of the provided Sigma API key in an Authorization header. See [RFC2617](https://tools.ietf.org/html/rfc2617) for Basic Authentication reference. The following is an example of an encoded Authorization Header:
 
 `Authorization: Basic ZGVtbzpwQDU1dzByZA==`
 
@@ -43,7 +43,7 @@ To authorize your request you need to pass in an Authorization header. The follo
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://api.sigmaratings.com/v1/search/company""
+curl "https://api.sigmaratings.com/v1/account_status"
   -H "Authorization: Basic ZGVtbzpwQDU1dzByZA==""
 ```
 
@@ -54,10 +54,39 @@ You must replace <code>"ZGVtbzpwQDU1dzByZA=="</code> with your personal API key.
 
 # Available Endpoints
 
+## API Account Status
+
+```shell
+curl "https://api.sigmaratings.com/v1/account_status"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "msg": "ok",
+  "token": "<API Key>",
+  "request_limit": 10,
+  "refresh_period": "monthly",
+  "created": "2020-09-29T15:59:50.085109Z",
+  "expires": null,
+  "active": true,
+  "permissions": {},
+  "currentRequests": 0
+}
+```
+
+This endpoint retrieves information about your API key.
+
+### HTTP Request
+
+`GET https://api.sigmaratings.com/v1/acccount_status`
+
 ## Risk Scoring
 
 ```shell
-curl "https://api.sigmaratings.com/v1/risk/<ID>"
+curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
 ```
 
@@ -69,7 +98,7 @@ curl "https://api.sigmaratings.com/v1/risk/<ID>"
         "rank": 1,
         "level": "Severe"
    },
-   indicator_count: [
+   "indicator_count": [{}
    ],
    "results": [
     {
@@ -78,8 +107,26 @@ curl "https://api.sigmaratings.com/v1/risk/<ID>"
       "strength": "",
       "description": "",
       "source": "",
-      "indicators": [],
-      "locations": []
+      "indicators": [
+        {
+          "name":"",
+          "source_url":"",
+          "outlook": -2,
+          "stability": 1,
+          "description": "",
+          "score": 50
+        }
+      ],
+      "locations": [
+        {
+          "country":"",
+          "code": "",
+          "type": "",
+          "sources": "",
+          "addresses": [{}],
+          "risk": ""
+        }
+      ]
     }
    ]
 }
@@ -89,13 +136,21 @@ This endpoint retrieves a country risk.
 
 ### HTTP Request
 
-`GET https://api.sigmaratings.com/v1/risk/<ID>`
+`POST https://api.sigmaratings.com/v1/risk`
 
 ### URL Parameters
 
 Parameter |  Description
 --------- |  -----------
-ID | Specified entity ID
+q | Entity search value
+
+### Request body
+
+Parameter | Description | Type   |
+--------- | ----------- | ---------- |
+filters | Filters to apply to search | Object |
+
+
 
 <aside class="success">
 All requests must specify an Authorization header.
