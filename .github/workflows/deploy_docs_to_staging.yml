@@ -46,3 +46,13 @@ jobs:
         aws_bucket: ${{ secrets.AWS_S3_BUCKET_STAGING }}
         source_dir: './out'
         destination_dir: ''
+        
+     # Invalidate Cloudfront 
+    - name: invalidate
+      uses: chetan/invalidate-cloudfront-action@master
+      env:
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        PATHS: '/index.html'
+        AWS_REGION: 'us-east-1'
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
