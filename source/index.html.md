@@ -94,41 +94,40 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 
 ```json
 {
-   "score": {
-        "rank": 1,
-        "level": "Severe"
-   },
-   "indicator_count": [{}
-   ],
-   "results": [
-    {
-      "name": "",
-      "type": "",
-      "strength": "",
-      "description": "",
-      "source": "",
-      "indicators": [
-        {
-          "name":"",
-          "source_url":"",
-          "outlook": -2,
-          "stability": 1,
-          "description": "",
-          "score": 50
-        }
-      ],
-      "locations": [
-        {
-          "country":"",
-          "code": "",
-          "type": "",
-          "sources": "",
-          "addresses": [{}],
-          "risk": ""
-        }
-      ]
-    }
-   ]
+	"score": {
+		"rank": 73,
+		"level": "Severe"
+	},
+	"indicator_summary": {
+		"Address Risk": 1
+	},
+	"results": [{
+		"name": "YARDPOINT SALES LLP",
+		"type": "company",
+		"strength": 0.9433497536945812,
+		"description": null,
+		"source": "Corporate Registries",
+		"indicators": [{
+			"name": "Address Risk",
+			"source_url": "",
+			"outlook": -2,
+			"stability": 1,
+			"description": "Sigma has detected shipping records for YARDPOINT SALES LLP in the high risk categories: Chemical Elements & Related Products",
+			"score": 70
+		}],
+		"locations": [{
+			"country": "United Kingdom",
+			"country_code": "GB",
+			"type": "headquarters",
+			"sources": [
+				"https://opencorporates.com/companies/gb/OC374526"
+			],
+			"addresses": [{
+				"address": "175 Darkes Lane\nSuite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
+			}]
+		}]
+
+	}]
 }
 ```
 
