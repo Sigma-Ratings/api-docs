@@ -147,6 +147,14 @@ Parameter | Description | Type   |
 --------- | ----------- | ---------- |
 filters | Filters to apply to search | Object |
 
+_**filters**_ can be:
+
+Filter | Description | Type | 
+-------| ----------- | ----- | 
+threshold | A decimal representation of match strength | float | 
+addresses | Filters addresses from search results | Array |
+
+
 
 
 <aside class="success">
