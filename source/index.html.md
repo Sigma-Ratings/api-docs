@@ -110,8 +110,6 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 		"indicators": [{
 			"name": "Address Risk",
 			"source_url": "",
-			"outlook": -2,
-			"stability": 1,
 			"description": "Sigma has detected shipping records for YARDPOINT SALES LLP in the high risk categories: Chemical Elements & Related Products",
 			"score": 70
 		}],
