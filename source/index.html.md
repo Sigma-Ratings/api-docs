@@ -105,12 +105,11 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 		"name": "YARDPOINT SALES LLP",
 		"type": "company",
 		"strength": 0.9433497536945812,
-		"description": null,
 		"source": "Corporate Registries",
 		"indicators": [{
 			"name": "Address Risk",
 			"source_url": "",
-			"description": "Sigma has detected shipping records for YARDPOINT SALES LLP in the high risk categories: Chemical Elements & Related Products",
+			"description": "YARDPOINT SALES LLP is located at 175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW which appears to be associated with Alleged Shell Companies",
 			"score": 70
 		}],
 		"locations": [{
@@ -121,7 +120,7 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 				"https://opencorporates.com/companies/gb/OC374526"
 			],
 			"addresses": [{
-				"address": "175 Darkes Lane\nSuite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
+				"address": "175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
 			}]
 		}]
 
