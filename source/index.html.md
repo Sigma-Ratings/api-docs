@@ -25,7 +25,7 @@ We have language bindings in Shell! You can view code examples in the dark area 
 
 ## Risk Scoring
 
-Sigma's Risk Scoring API is Sigma's first API and brings together over 60 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 300 million companies worldwide.
+Sigma's Risk Scoring API is Sigma's first API and brings together over 50 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 300 million companies worldwide. You can use the Risk Scoring end point to prioritize investigations and diligence by accessing a summary and score for any entity name.
 
 # Authentication
 
