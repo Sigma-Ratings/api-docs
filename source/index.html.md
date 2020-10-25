@@ -23,10 +23,6 @@ We have language bindings in Shell! You can view code examples in the dark area 
 
 # Overview
 
-## Risk Scoring
-
-Sigma's Risk Scoring API is Sigma's first API and brings together over 50 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 300 million companies worldwide. You can use the Risk Scoring end point to prioritize investigations and diligence by accessing a summary and score for any entity name.
-
 # Authentication
 
 The Sigma API uses Basic Authentication to access the API. 
@@ -52,7 +48,15 @@ curl "https://api.sigmaratings.com/v1/account_status"
 You must replace <code>"ZGVtbzpwQDU1dzByZA=="</code> with your personal API key.
 </aside>
 
+<aside class="notice">
+When using <code>curl</code> on Microsoft Windows you need to replace single-quotes in the examples with double-quotes. Alternatively, you can replace with <code>\"</code>.
+</aside>
+
 # Available Endpoints
+
+<aside class="success">
+All requests must specify an Authorization header.
+</aside>
 
 ## API Account Status
 
@@ -85,9 +89,12 @@ This endpoint retrieves information about your API key.
 
 ## Risk Scoring
 
+Sigma's Risk Scoring API is Sigma's first API and brings together over 50 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 300 million companies worldwide. You can use the Risk Scoring end point to prioritize investigations and diligence by accessing a summary and score for any entity name.
+
+
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
-  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+  -H "Authorization: mZGVtbzpwQDU1dzByZA==" -d '{"filters":{"threshold":0.98, "category":"sigma"}}'
 ```
 
 > The above command returns JSON structured like this:
@@ -152,11 +159,6 @@ Filter | Description | Type |
 -------| ----------- | ----- | 
 threshold | A decimal representation of match strength | float | 
 addresses | Filters addresses from search results | Array |
+category | Sigma category | string |
 
-
-
-
-<aside class="success">
-All requests must specify an Authorization header.
-</aside>
 

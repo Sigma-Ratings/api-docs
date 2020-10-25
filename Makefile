@@ -123,4 +123,4 @@ ci-test: | start-test-environment test-integration
 #
 
 run:
-	bundle exec middleman build --clean	
+	bundle exec middleman server --watcher-force-polling	
