@@ -15,13 +15,11 @@ search: true
 code_clipboard: true
 ---
 
-# Introduction
+# Overview
 
-Welcome to the Sigma Ratings API! You can use our API to access entities API endpoints.
+Sigma's Risk Scoring API is Sigma's first API endpoint and brings together over 50 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 300 million companies worldwide. You can use the Risk Scoring endpoint to prioritize investigations and diligence by accessing a summary and score for any entity name.
 
 We have language bindings in Shell! You can view code examples in the dark area to the right.
-
-# Overview
 
 # Authentication
 
@@ -89,7 +87,7 @@ This endpoint retrieves information about your API key.
 
 ## Risk Scoring
 
-Sigma's Risk Scoring API is Sigma's first API and brings together over 50 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 300 million companies worldwide. You can use the Risk Scoring end point to prioritize investigations and diligence by accessing a summary and score for any entity name.
+Returns a Sigma Risk Score for the specified entity.
 
 
 ```shell
