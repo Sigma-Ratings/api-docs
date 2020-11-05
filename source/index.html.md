@@ -17,15 +17,15 @@ code_clipboard: true
 
 # Overview
 
-Sigma's Risk Scoring API is Sigma's first API endpoint and brings together over 50 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 300 million companies worldwide. You can use the Risk Scoring endpoint to prioritize investigations and diligence by accessing a summary and score for any entity name.
+The Sigma Ratings API is designed to give our programmatic access to our risk intelligence data so that it may be easily integrated into internal systems and databases.  
 
-We have language bindings in Shell! You can view code examples in the dark area to the right.
+Our RESTful API returns a JSON dataset.  Sigma language bindings are in Shell. Code examples can be viewed in the dark area to the right.
 
 # Authentication
 
-The Sigma API uses Basic Authentication to access the API. 
+The Sigma API uses Basic Authentication to access the API.
 
-To obtain an API key please contact our client support team.
+To obtain an API key please contact our client support team @ Support@sigmaratings.com
 
 ## Basic Authentication
 
@@ -87,7 +87,7 @@ This endpoint retrieves information about your API key.
 
 ## Risk Scoring
 
-Returns a Sigma Risk Score for the specified entity.
+Sigma's Risk Scoring API is Sigma's primary API and brings together over 60 proprietary risk indicators (flags) to derive scores and provide access to key risk related data on 700 million entities worldwide. Calling the API with an entity name returns a Sigma Risk Score for the specified entity.
 
 
 ```shell
@@ -97,12 +97,8 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 
 > The above command returns JSON structured like this:
 
-```json
+```json 
 {
-	"score": {
-		"rank": 73,
-		"level": "Severe"
-	},
 	"indicator_summary": {
 		"Address Risk": 1
 	},
@@ -130,10 +126,13 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 		}]
 
 	}]
+  "score": {
+    "level": "Severe"
+    "rank": 73,
+  },
+  
 }
 ```
-
-This endpoint retrieves a country risk.
 
 ### HTTP Request
 
@@ -143,20 +142,65 @@ This endpoint retrieves a country risk.
 
 Parameter |  Description
 --------- |  -----------
-q | Entity search value
+`q` | Entity search value
 
 ### Request body
 
 Parameter | Description | Type   |
 --------- | ----------- | ---------- |
-filters | Filters to apply to search | Object |
+`filters` | Filters to apply to search | Object |
 
 _**filters**_ can be:
 
 Filter | Description | Type | 
 -------| ----------- | ----- | 
-threshold | A decimal representation of match strength | float | 
-addresses | Filters addresses from search results | Array |
-category | Sigma category | string |
+`threshold` | A decimal representation of match strength. See below for details on the `strength attribute` | float | 
+`addresses` | Filters addresses from search results | Array |
+`category` | Sigma category | string |
+
+### Response
+
+_**Summary Data**_ 
+
+Field | Description
+--------- | ----------- | 
+`indicator_summary` | Summary data that lists of all Risk Indicators found in the search and their corresponding counts. See Sigma Data Dictionary for detail on indicators. |
+`score` | Sigma's overall risk score for the search results. Based on the number and severity of indicators found, as measure by the individual indicators scores. |
+
+_**Results**_
+
+The results section includes detail of all available entity matches. Each match can have one or more risk indicators and supporting data such as locations and business descriptions.
+
+Field | Description
+--------- | ----------- | 
+`description` | Business description of entity that a match correspnds to. Descriptions can be stated business descriptions from external sources, or Sigma derived from trade activity
+`indicators` | Summary of each Risk Indicator found in the search. See below for detail
+`locations` | Country and address data found that relates to a . See below for detail
+`name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or translierated or translated name
+`source` | Name of Sigma data integration the match is sourced from
+`strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on thier strength
+`type` | Denotes which Sigma Search option the match was returned from. Can be Company or People. Note Company search may return entities that are People, where they exist in unstructured or loosely structured sources 
 
 
+
+
+
+_**Indicators**_ attribute detail for the `indicators` struct
+
+Field | Description
+--------- | ----------- | 
+`description` | Description of the risk indicator and the entity name it relates to
+`name` | Category name for the indicator. Name corresponds to the categories shown in the indicator_summary
+`score` | 0-100 score to measure the relatiove risk severity of the indicator. eg. OFAC SDN sanctions are the most severe indicators, and score at 100 
+`source_url` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal
+
+
+_**Locations**_ attribute detail for the `locations` struct
+
+Field | Description
+--------- | ----------- | 
+`addresses` | Address string relating to an entity. Format varies by spurce & jurisdiction
+`country` | Country name
+`country_code` | 2 letter ISO-2 country code
+`sources` | Source URL relating to a Location
+`type` | Denotes how the location related to the company. For example, `trade` indicates the address was found in shipping records
