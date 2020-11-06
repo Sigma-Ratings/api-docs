@@ -156,7 +156,7 @@ Filter | Description | Type |
 -------| ----------- | ----- | 
 `threshold` | A decimal representation of match strength. See below for details on the `strength attribute` | float | 
 `addresses` | Filters addresses from search results | Array |
-`category` | Sigma category enables use case specific configuration of which integrations are used and how the data is returned. Custom cateogires can be created based on a specifc use case upon request. Contact your Simga customer success rep or Support@sigmaratings.com for details  | string |
+`category` | Sigma category enables use case specific configuration of which integrations are used and how the data is returned. Custom categories can be created based on a specific use case upon request. Contact your Sigma customer success rep or Support@sigmaratings.com for details  | string |
 
 ### Response
 
@@ -173,12 +173,12 @@ The results section includes detail of all available entity matches. Each match 
 
 Field | Description
 --------- | ----------- | 
-`description` | Business description of entity that a match correspnds to. Descriptions can be stated business descriptions from external sources, or Sigma derived from trade activity
+`description` | Business description of entity that a match corresponds to. Descriptions can be stated business descriptions from external sources, or Sigma derived from trade activity
 `indicators` | Summary of each Risk Indicator found in the search. See below for detail
 `locations` | Country and address data found that relates to the matched entity. See below for detail
-`name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or translierated or translated name
+`name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or transliterated or translated name
 `source` | Name of Sigma data integration the match is sourced from
-`strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on thier strength
+`strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on their strength
 `type` | Denotes which Sigma Search option the match was returned from. Can be Company or People. Note Company search may return entities that are People, where they exist in unstructured or loosely structured sources 
 
 
