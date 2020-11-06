@@ -156,7 +156,7 @@ Filter | Description | Type |
 -------| ----------- | ----- | 
 `threshold` | A decimal representation of match strength. See below for details on the `strength attribute` | float | 
 `addresses` | Filters addresses from search results | Array |
-`category` | Sigma category | string |
+`category` | Sigma category enables use case specific configuration of which integrations are used and how the data is returned. Custom cateogires can be created based on a specifc use case upon request. Contact your Simga customer success rep or Support@sigmaratings.com for details  | string |
 
 ### Response
 
