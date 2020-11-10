@@ -164,7 +164,7 @@ _**Summary Data**_
 
 Field | Description
 --------- | ----------- | 
-`score` | Sigma's overall risk score for the search results. Based on the number and severity of indicators found, as measure by the individual indicators scores. |
+`score` | Sigma's overall risk score for the search results. Based on the number and severity of indicators found, as measure by the individual indicators scores. Scored from zero to 100, with a higher score indicating higher chance of risk. |
 `level` | The level indicates the risk category and can be used for high level categorization of searches. It is based on Sigma Score and whether data was identified.  (Read more on levels) |
 `detail` | Summary data that lists of all Risk Indicators found in the search and their corresponding counts. See Sigma Data Dictionary for detail on indicators. |
 
