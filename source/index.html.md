@@ -87,7 +87,7 @@ This endpoint retrieves information about your API key.
 
 ## Risk Scoring
 
-Sigma's Risk Scoring API is Sigma's primary API that powers compliant commercial and financial relationships globally.  The API brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 700+ million entities. Calling the API with an entity name returns a Sigma Risk Score for the specified entity.
+Sigma's Risk Scoring API is Sigma's primary API that powers compliant commercial and financial relationships globally.  The API brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750+ million entities. Calling the API with an entity name returns a Sigma Risk Score for the specified entity.
 
 
 ```shell
@@ -172,8 +172,8 @@ The `level` attribute includes four options:
 
 Level | Description
 --------- | ----------- | 
-`Severe` | Overall score above 70. At least one high-risk AML typology found in search. | 
-`Regular` | Overall score greater than zero and less than 70. At least one AML typology risk indicator found in search. |
+`Severe` | Overall score above 70. At least one high-risk AML typology included in the risk indicators found in search. | 
+`Regular` | Overall score greater than zero and less than 70. At least one risk indicator found in search. |
 `Low` | Overall score of zero with at least on description found. Sigma has found data that may indicate line of business. |
 `Unidentified` | No indicators or descriptions found in search. Minimal data identified across Sigma sources. Results may include location data via a corporate registry, but no line of business information available. |
 
