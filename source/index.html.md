@@ -99,8 +99,11 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 
 ```json 
 {
-	"indicator_summary": {
-		"Address Risk": 1
+	"summary": {
+		  "score": 73.1,
+      "level": "Severe",
+      "detail": {
+       "Address Risk": 1
 	},
 	"results": [{
 		"name": "YARDPOINT SALES LLP",
@@ -126,10 +129,6 @@ curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
 		}]
 
 	}]
-  "score": {
-    "level": "Severe"
-    "rank": 73,
-  },
   
 }
 ```
@@ -154,18 +153,31 @@ _**filters**_ can be:
 
 Filter | Description | Type | 
 -------| ----------- | ----- | 
-`threshold` | A decimal representation of match strength. See below for details on the `strength attribute` | float | 
-`addresses` | Filters addresses from search results | Array |
+`threshold` | A decimal representation of match strength. See below for details on the `strength` attribute | float | 
 `category` | Sigma category filter enables configuration of which integrations are used and how the data is returned | string |
 
 ### Response
+
+The API response is structured as a `summary` section and `results` section. The summary data aggregates the results and can be used to build busines logic such as prioritizing investigations and segmenting searches. The results data enumerates all of the entity matches and their corresponding indicators and supporting data.
 
 _**Summary Data**_ 
 
 Field | Description
 --------- | ----------- | 
-`indicator_summary` | Summary data that lists of all Risk Indicators found in the search and their corresponding counts. See Sigma Data Dictionary for detail on indicators. |
 `score` | Sigma's overall risk score for the search results. Based on the number and severity of indicators found, as measure by the individual indicators scores. |
+`level` | The level indicates the risk category and can be used for high level categorization of searches. It is based on Sigma Score and whether data was identified.  (Read more on levels) |
+`detail` | Summary data that lists of all Risk Indicators found in the search and their corresponding counts. See Sigma Data Dictionary for detail on indicators. |
+
+The `level` attribute includes four options:
+
+Level | Description
+--------- | ----------- | 
+`Severe` | Overall score above 70. At least one high risk AML typology found in search. | 
+`Regular` | Overall score greater than zero and less than 70. At least one risk indicator found in search. |
+`Low` | Overall score of zero with at least on description found. Sigma has found data that may indicate line of business. |
+`No risk detected across Sigma data` | No indicators or descriptions found in search. Minimial data identified. May include location data via a corporate registry, but no line of business information available. |
+
+
 
 _**Results**_
 
@@ -181,9 +193,7 @@ Field | Description
 `strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on their strength
 `type` | Denotes which Sigma Search option the match was returned from. Can be Company or People. Note Company search may return entities that are People, where they exist in unstructured or loosely structured sources 
 
-
-
-_**Indicators**_ attribute detail for the `indicators` struct
+Attribute detail for `indicators`:
 
 Field | Description
 --------- | ----------- | 
@@ -192,13 +202,20 @@ Field | Description
 `score` | 0-100 score to measure the relatiove risk severity of the indicator. eg. OFAC SDN sanctions are the most severe indicators, and score at 100 
 `source_url` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal
 
-
-_**Locations**_ attribute detail for the `locations` struct
+Attribute detail for `locations`:
 
 Field | Description
 --------- | ----------- | 
 `addresses` | Address string relating to an entity. Format varies by spurce & jurisdiction
 `country` | Country name
 `country_code` | 2 letter ISO-2 country code
-`sources` | Source URL relating to a Location
-`type` | Denotes how the location related to the company. For example, `trade` indicates the address was found in shipping records
+`source_urls` | One of more source URLs relating to a Location, if available
+`type` | Denotes how the location related to the company. Includes options for `trade` indicates the address was found in shipping records
+
+
+The `type` attribute currently includes two options:
+
+Type | Description
+--------- | ----------- | 
+`Trade` | Indicates the address was found in shipping records. | 
+`Operating` | Indicates the address was found in corporate records or third party company profiles. |
