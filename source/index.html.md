@@ -213,7 +213,7 @@ Field | Description
 `type` | Denotes how the location related to the company. Includes options for `trade` indicates the address was found in shipping records
 
 
-The `type` attribute currently includes two options:
+The location `type` attribute currently includes two options:
 
 Type | Description
 --------- | ----------- | 
