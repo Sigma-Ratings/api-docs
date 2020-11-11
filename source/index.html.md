@@ -31,19 +31,19 @@ To obtain an API key please contact our client support team @ Support@sigmaratin
 
 To authorize your request you need to specify a base64 encoded value of the provided Sigma API key in an Authorization header. See [RFC2617](https://tools.ietf.org/html/rfc2617) for Basic Authentication reference. The following is an example of an encoded Authorization Header:
 
-`Authorization: Basic ZGVtbzpwQDU1dzByZA==`
+`Authorization: Basic c2lnbWFyYXRpbmdz`
 
 > To authorize, use this code:
 
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "https://api.sigmaratings.com/v1/account_status"
-  -H "Authorization: Basic ZGVtbzpwQDU1dzByZA==""
+  -H "Authorization: Basic c2lnbWFyYXRpbmdz"
 ```
 
 
 <aside class="notice">
-You must replace <code>"ZGVtbzpwQDU1dzByZA=="</code> with your personal API key.
+You must replace <code>"c2lnbWFyYXRpbmdz"</code> with your personal API key.
 </aside>
 
 <aside class="notice">
@@ -60,7 +60,7 @@ All requests must specify an Authorization header.
 
 ```shell
 curl "https://api.sigmaratings.com/v1/account_status"
-  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+  -H "Authorization: c2lnbWFyYXRpbmdz"
 ```
 
 > The above command returns JSON structured like this:
@@ -68,7 +68,7 @@ curl "https://api.sigmaratings.com/v1/account_status"
 ```json
 {
   "msg": "ok",
-  "token": "<API Key>",
+  "token": "sigmaratings",
   "request_limit": 10,
   "refresh_period": "monthly",
   "created": "2020-09-29T15:59:50.085109Z",
@@ -91,45 +91,66 @@ Sigma's Risk Scoring API is Sigma's primary API that powers compliant commercial
 
 
 ```shell
-curl "https://api.sigmaratings.com/v1/risk?q=<entity name>"
-  -H "Authorization: mZGVtbzpwQDU1dzByZA==" -d '{"filters":{"threshold":0.98, "category":"sigma"}}'
+curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
+  -H "Authorization: c2lnbWFyYXRpbmdz" -d '{"filters":{"threshold":0.98, "category":"sigma"}}'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json 
 {
-	"summary": {
-		  "score": 73.1,
-      "level": "Severe",
-      "detail": {
-       "Address Risk": 1
-	},
-	"results": [{
-		"name": "YARDPOINT SALES LLP",
-		"type": "company",
-		"strength": 0.9433497536945812,
-		"source": "Corporate Registries",
-		"indicators": [{
-			"name": "Address Risk",
-			"source_url": "",
-			"description": "YARDPOINT SALES LLP is located at 175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW which appears to be associated with Alleged Shell Companies",
-			"score": 70
-		}],
-		"locations": [{
-			"country": "United Kingdom",
-			"country_code": "GB",
-			"type": "headquarters",
-			"sources": [
-				"https://opencorporates.com/companies/gb/OC374526"
-			],
-			"addresses": [{
-				"address": "175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
-			}]
-		}]
-
-	}]
-  
+  "summary": {
+    "score": 73.1,
+    "level": "Severe",
+    "detail": {
+      "Address Risk": 1,
+      "Associations Risk": 1,
+      "Operating Risk": 1
+    }
+  },
+  "results": [
+    {
+      "name": "YARDPOINT SALES LLP",
+      "type": "company",
+      "strength": 0.9433497536945812,
+      "source": "Corporate Registries",
+      "indicators": [
+        {
+          "name": "Address Risk",
+          "source_url": "",
+          "description": "YARDPOINT SALES LLP is located at 175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW which appears to be associated with Alleged Shell Companies",
+          "score": 70
+        },
+        {
+          "description": "YARDPOINT SALES LLP appears to be associated with a sanctioned person",
+          "name": "Associations Risk",
+          "score": 70,
+          "source_url": ""
+        },
+        {
+          "description": "YARDPOINT SALES LLP. Highest risk jurisdiction(s) based on Sigma Country Risk Ratings",
+          "name": "Operating Risk",
+          "score": 60,
+          "source_url": ""
+        }
+      ],
+      "locations": [
+        {
+          "country": "United Kingdom",
+          "country_code": "GB",
+          "type": "headquarters",
+          "source_urls": [
+            "https://opencorporates.com/companies/gb/OC374526"
+          ],
+          "addresses": [
+            {
+              "address": "175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -219,3 +240,4 @@ Type | Description
 --------- | ----------- | 
 `Trade` | Indicates the address was found in shipping records. | 
 `Operating` | Indicates the address was found in corporate records or third party company profiles. |
+`Unspecified` | Indicates the address found but no available information on address type. |
