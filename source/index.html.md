@@ -87,7 +87,7 @@ This endpoint retrieves information about your API key.
 
 ## Risk Scoring
 
-Sigma's Risk Scoring API is Sigma's primary API that powers compliant commercial and financial relationships globally.  The API brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750+ million entities. Calling the API with an entity name returns a Sigma Risk Score for the specified entity.
+Sigma's Risk Scoring API is Sigma's primary API that powers compliant commercial and financial relationships globally.  The API brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the API with an entity name returns a Sigma Risk Score for the specified entity.
 
 
 ```shell
