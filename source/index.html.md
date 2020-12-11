@@ -139,26 +139,83 @@ This endpoint retrieves a country risk.
 
 ### HTTP Request
 
-`POST https://api.sigmaratings.com/v1/risk`
+`POST https://api.sigmaratings.com/v1/bulk`
 
 ### URL Parameters
 
-Parameter |  Description
---------- |  -----------
-q | Entity search value
+Parameter |  Description | Type | Default Value
+--------- |  ----------- | ------- | ----------
+threshold | A decimal representation of match strength | float | 0.95
+category | <name of category here> | string | <insert default value here>
 
 ### Request body
 
-Parameter | Description | Type   |
---------- | ----------- | ---------- |
-filters | Filters to apply to search | Object |
 
-_**filters**_ can be:
+## API Bulk
 
-Filter | Description | Type | 
--------| ----------- | ----- | 
-threshold | A decimal representation of match strength | float | 
-addresses | Filters addresses from search results | Array |
-category | Sigma category | string |
+```shell
+cat entities
+{"id":"1", "YARDPOINT SALES LLP"}
+{"id":"2", "Sigma Ratings"}
+curl "https://api.sigmaratings.com/v1/bulk"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA==" -H "Content-Type: application/x-ndjson"
+  -XPOST --data-binary "@entities"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": "1e67becc-9405-4a3c-b4d0-78144bc8bba4",
+  "message": "Request submitted",
+  "created_at": "2016-11-28T00:00:00.0000000Z"
+}
+```
+
+This endpoint creates a bulk request.
+
+<aside class="notice">
+This endpoint requires the Content-Type to be set to application/x-ndjson. The Content-Type requires a new line
+to separate each entry, JSON entries must not include `\n`'s as delimiters. <a href='http://ndjson.org'>ndjson specification reference</a>
+</aside>
+
+## API Bulk status
+
+```shell
+curl "https://api.sigmaratings.com/v1/bulk/:id"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": "c9ebf761-8851-4550-be7e-a14d07e0e57a",
+  "status": "Completed",
+  "presigned_url": "https://sigmaratings-uploads.s3.amazonaws.com/c9ebf761-8851-4550-be7e-a14d07e0e57a/c9ebf761-8851-4550-be7e-a14d07e0e57a.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQ7CCVENTOOV7CZ7M%2F20201210%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20201210T213944Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d1f8b6b2424be13692cff876775c27c25f698970fd4735ad7a1a2451593db23f",
+  "created_at": "2016-11-28T00:00:00.0000000Z",
+  "completed_at": "2016-11-29T00:00:00.0000000Z",
+  "batches": {
+    "total_num": 1,
+    "total_num_completed": 1,
+    "total_num_processing": 0,
+    "total_num_remaining": 0
+  }
+}
+```
+
+This endpoint retrieves information about your API key.
+
+### Response details
+
+Field |  Description 
+--------- |  -----------
+id | An UUID to reference the request 
+status | Status of request 
+presigned_url | url to download request submitted. This field is only present when the request is completed. 
+created_at | Date when request was created
+completed_at | Date when request was completed
+batches | Status of request indicating processing status
+
 
 
