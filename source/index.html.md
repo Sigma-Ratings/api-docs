@@ -251,8 +251,8 @@ Type | Description
 
 Parameter |  Description | Type | Default
 --------- |  ----------- | ------- | ----------
-threshold | A decimal representation of match strength | float | 0.95
-category | <name of category here> | string | <insert default value here>
+`threshold` | A decimal representation of match strength | float | 0.95
+`category` | <name of category here> | string | <insert default value here>
 
 ### Request body
 
