@@ -283,13 +283,13 @@ Performs multiple requests of the risk scoring endpoint in a single call. It agg
 <aside class="notice">
 This endpoint requires the Content-Type to be set to application/x-ndjson. The Content-Type requires a new line
 to separate each entry, JSON entries must not include `\n`'s as delimiters. <a href='http://ndjson.org'>ndjson specification reference</a>
+</aside>
 
 The following is an example of the input file required for the bulk request endpoint:
 ```json
 {"id":"1", "Yardpoint Sales LLP"}
 {"id":"2", "Sigma Ratings"}
 ```
-</aside>
 
 ## API Bulk status
 
