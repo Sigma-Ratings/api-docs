@@ -87,7 +87,7 @@ This endpoint retrieves information about your API key.
 
 ## Risk Scoring
 
-Sigma's Risk Scoring API is Sigma's primary API that powers compliant commercial and financial relationships globally.  The API brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the API with an entity name returns a Sigma Risk Score for the specified entity.
+Sigma's Risk Scoring powers compliant commercial and financial relationships globally.  It brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the endpoint with an entity name returns a Sigma Risk Score for the specified entity.
 
 
 ```shell
@@ -278,11 +278,17 @@ curl "https://api.sigmaratings.com/v1/bulk"
 }
 ```
 
-This endpoint creates a bulk request.
+Performs multiple requests of the risk scoring endpoint in a single call. It aggregates the results into two files: a summary file, that aggregates all the data collected from each individual request, and a details file, which contains additional details for each individual request. The endpoint provides an `id` which can be used to verify the status of the bulk request.
 
 <aside class="notice">
 This endpoint requires the Content-Type to be set to application/x-ndjson. The Content-Type requires a new line
 to separate each entry, JSON entries must not include `\n`'s as delimiters. <a href='http://ndjson.org'>ndjson specification reference</a>
+
+The following is an example of the input file required for the bulk request endpoint:
+```json
+{"id":"1", "Yardpoint Sales LLP"}
+{"id":"2", "Sigma Ratings"}
+```
 </aside>
 
 ## API Bulk status
@@ -310,7 +316,11 @@ curl "https://api.sigmaratings.com/v1/bulk/:id"
 }
 ```
 
-This endpoint retrieves information about your API key.
+This endpoint retrieves information about your bulk request. When the request completes, it generates a `presigned_url`. This url allows acccess to a zip file of the bulk request that was requested. The zip file will contain the following files:
+
+- A summary.json: High level summary of each individual request
+- A details.json: Describes details for each of the Risk Scoring requests that was executed.
+- An errors.json: Only present if there were errors during the execution of the bulk request. If present, it will contain the `id`s and errors where the request failed.
 
 ### Response details
 
