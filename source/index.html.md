@@ -56,7 +56,7 @@ When using <code>curl</code> on Microsoft Windows you need to replace single-quo
 All requests must specify an Authorization header.
 </aside>
 
-## API Account Status
+## Account Status
 
 ```shell
 curl "https://api.sigmaratings.com/v1/account_status"
