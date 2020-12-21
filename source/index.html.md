@@ -56,7 +56,7 @@ When using <code>curl</code> on Microsoft Windows you need to replace single-quo
 All requests must specify an Authorization header.
 </aside>
 
-## API Account Status
+## Account Status
 
 ```shell
 curl "https://api.sigmaratings.com/v1/account_status"
@@ -87,7 +87,7 @@ This endpoint retrieves information about your API key.
 
 ## Risk Scoring
 
-Sigma's Risk Scoring API is Sigma's primary API that powers compliant commercial and financial relationships globally.  The API brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the API with an entity name returns a Sigma Risk Score for the specified entity.
+Sigma's Risk Scoring powers compliant commercial and financial relationships globally.  It brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the endpoint with an entity name returns a Sigma Risk Score for the specified entity.
 
 
 ```shell
@@ -241,3 +241,230 @@ Type | Description
 `Trade` | Indicates the address was found in shipping records. | 
 `Operating` | Indicates the address was found in corporate records or third party company profiles. |
 `Unspecified` | Indicates the address found but no available information on address type. |
+
+
+## Bulk Risk Scoring
+```shell
+cat entities.json
+{"id":"1", "YARDPOINT SALES LLP"}
+{"id":"2", "Sigma Ratings"}
+
+curl "https://api.sigmaratings.com/v1/bulk"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA==" -H "Content-Type: application/x-ndjson"
+  -XPOST --data-binary "@entities.json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": "1e67becc-9405-4a3c-b4d0-78144bc8bba4",
+  "message": "Request submitted",
+  "created_at": "2016-11-28T00:00:00.0000000Z"
+}
+```
+
+The Bulk Risk Scoring endpoint performs multiple requests of the [Risk Scoring](#risk-scoring) endpoint in a single request, by doing so, it reduces the overhead of calling the Risk Scoring endpoint multiple times, while providing a structured and summarized collection of the results. 
+
+The Bulk Risk Scoring endpoint provides an `id`, which can be used to verify the status of the bulk request and retrieve the results of the request using the [Bulk Risk Scoring Status](#bulk-risk-scoring-status) endpoint.
+
+### HTTP Request
+
+`POST https://api.sigmaratings.com/v1/bulk`
+
+<aside class="notice">This endpoint requires the Content-Type to be set to application/x-ndjson. The Content-Type requires a new line
+to separate each entry, JSON entries must not include `\n`'s as delimiters. 
+</aside>
+<aside class="notice"> When providing a file input to the curl command, the --data-binary flag <i>must</i> be specified instead of plain -d. The -d flag does not preserve newlines. 
+</aside>
+For more information about the ndjson specification, please refer to: <a href='http://ndjson.org'>ndjson.org</a>.
+
+### URL Parameters
+
+Parameter |  Description | Type | Default
+--------- |  ----------- | ------- | ----------
+`threshold` | A decimal representation of match strength | float | 0.95
+`category` | <name of category here> | string | <insert default value here>
+
+### Request body
+> The following is an example of the input file required for the bulk request endpoint:
+
+```json
+{"id":"1", "Yardpoint Sales LLP"}
+{"id":"2", "Sigma Ratings"}
+```
+
+The contents of the request body is a sequence of newline delimited JSON requests.
+
+## Bulk Risk Scoring Status
+```shell
+curl "https://api.sigmaratings.com/v1/bulk/:id"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": "c9ebf761-8851-4550-be7e-a14d07e0e57a",
+  "status": "Completed",
+  "presigned_url": "https://sigmaratings-uploads.s3.amazonaws.com/c9ebf761-8851-4550-be7e-a14d07e0e57a/c9ebf761-8851-4550-be7e-a14d07e0e57a.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQ7CCVENTOOV7CZ7M%2F20201210%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20201210T213944Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d1f8b6b2424be13692cff876775c27c25f698970fd4735ad7a1a2451593db23f",
+  "created_at": "2016-11-28T00:00:00.0000000Z",
+  "completed_at": "2016-11-29T00:00:00.0000000Z",
+  "batches": {
+    "total_num": 1,
+    "total_num_completed": 1,
+    "total_num_processing": 0,
+    "total_num_remaining": 0
+  }
+}
+```
+
+The Bulk Risk Scoring status endpoint retrieves information about the bulk request. In addition to providing status of the bulk request, when the request completes, the status will display an additional field, a `presigned_url`. This url allows acccess to a compressed zip file containing the results of the bulk request. 
+
+The compressed zip file is composed of three files:
+
+- A Summary file, which aggregates all the data collected from each individual request. Summarizing the indicator count for each entity that was scored,
+- A Details file, which contains details for each individual Risk Scoring request,
+- and an Errors file, which is only be present if there were errors during the execution of the request. The errors file will contain an `id` and an error description, for each of the errors that were found.
+
+> The following is an example of a summary file:
+
+```json
+{
+  "id": "7db8e95b-bc8e-4f15-8404-96dd60a15a98",
+  "completed_at": "2020-12-16T17:16:38.9416755Z",
+  "created_at": "2020-12-16T17:16:48.9416755Z",
+  "summary": [
+    {
+      "id": "1",
+      "name": "YARDPOINT SALES LLP",
+      "level": "Severe",
+      "score": 71.8,
+      "sigma_url": "https://terminal.sigmaratings.com/open/search?query=YARDPOINT+SALES+LLP&threshold=0.95",
+      "indicator_count": {
+        "Address Risk": 2,
+        "Operating Risk": 1
+      },
+      "description_count": 0,
+      "total_indicator_count": 3
+    }
+  ]
+}
+```
+
+> The following is an example of a details file:
+
+```json
+{
+  "id": "7db8e95b-bc8e-4f15-8404-96dd60a15a98",
+  "created_at": "2020-12-16T17:16:38.9416755Z",
+  "completed_at": "2020-12-16T17:16:48.9416755Z",
+  "details": [
+    {
+      "id": "1",
+      "name": "YARDPOINT SALES LLP",
+      "level": "Severe",
+      "score": 71.8,
+      "locations": [
+        {
+          "matches": [
+            {
+              "type": "Unspecified",
+              "address": "175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR",
+              "country": "United Kingdom"
+            }
+          ],
+          "match_name": "Yardpoint Sales Llp"
+        },
+        {
+          "matches": [
+            {
+              "type": "Unspecified",
+              "address": "175 DARKES LANE, SUITE B, 2ND FLOOR, POTTERS BAR, HERTFORDSHIRE, EN6 1BW",
+              "country": "United Kingdom"
+            }
+          ],
+          "match_name": "Yardpoint Sales Llp"
+        },
+        {
+          "matches": [],
+          "match_name": "Yardpoint Sales Llp"
+        }
+      ],
+      "sigma_url": "https://terminal.sigmaratings.com/open/search?query=YARDPOINT+SALES+LLP&threshold=0.95",
+      "indicators": {
+        "Address Risk": [
+          {
+            "score": 70,
+            "match_name": "Yardpoint Sales Llp",
+            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR, which appears to be associated with Alleged Shell Companies"
+          },
+          {
+            "score": 70,
+            "match_name": "Yardpoint Sales Llp",
+            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE, SUITE B, 2ND FLOOR, POTTERS BAR, HERTFORDSHIRE, EN6 1BW, which appears to be associated with Alleged Shell Companies"
+          }
+        ],
+        "Operating Risk": [
+          {
+            "score": 40,
+            "match_name": "Yardpoint Sales Llp",
+            "source_url": "https://beta.companieshouse.gov.uk/company/OC374526",
+            "description": "YARDPOINT SALES LLP has a company status of Unknown"
+          }
+        ]
+      },
+      "indicator_summary": {
+        "Address Risk": 2,
+        "Operating Risk": 1
+      }
+    }
+  ]
+}
+```
+
+> The following is an example of an errors file:
+
+```json
+{
+  "id": "7db8e95b-bc8e-4f15-8404-96dd60a15a98",
+  "errors": [
+    {
+      "id": "1",
+      "error": "Invalid request specified"
+    }
+  ]
+}
+```
+
+The name of the zip file will be in the form of: `<id>.zip` where the `id` corresponds to the bulk request created.
+
+### HTTP Request
+
+`GET https://api.sigmaratings.com/v1/bulk/:id`
+
+### Response details
+
+Field |  Description 
+--------- |  -----------
+`id` | A UUID to reference the request 
+`status` | [Status](#status) of request. 
+`presigned_url` | URL to download request submitted. A presigned url is a URL with a temporary access to the download location. This field is only present when the request is completed. 
+`created_at` | Date when request was created
+`completed_at` | Date when request was completed
+`batches` | Status of request indicating processing status
+
+### Status
+
+Name | Description
+-----| -------------
+`Submitted` | Request was submitted
+`Processing` | Bulk Request has begun processing
+`Uploading` | Bulk Request has been processed and is being uploaded
+`Completed` | Request was completed successfully 
+`Completed With Errors` | Request was completed and there are errors in the request. An errors.json file will be present.
+
+
+
+
