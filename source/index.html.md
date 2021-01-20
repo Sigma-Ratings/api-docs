@@ -206,32 +206,33 @@ The results section includes detail of all available entity matches. Each match 
 
 Field | Description
 --------- | ----------- | 
-`description` | Business description of entity that a match corresponds to. Descriptions can be stated business descriptions from external sources, or Sigma derived from trade activity
-`indicators` | Summary of each Risk Indicator found in the search. See below for detail
+`description` | Business description of entity that a match corresponds to. Descriptions can be stated business descriptions from external sources, or Sigma derived from trade activity.
+`indicators` | Summary of each Risk Indicator found in the search. See below for detail.
 `locations` | Country and address data found that relates to the matched entity. See below for detail
-`name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or transliterated or translated name
-`source` | Name of Sigma data integration the match is sourced from
-`strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on their strength
-`type` | Denotes which Sigma Search option the match was returned from. Can be Company or People. Note Company search may return entities that are People, where they exist in unstructured or loosely structured sources 
+`name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or transliterated or translated name.
+`source` | Name of Sigma data integration the match is sourced from.
+`strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on their strength.
+`type` | Denotes which Sigma Search option the match was returned from. Can be Company or People. Note Company search may return entities that are People, where they exist in unstructured or loosely structured sources.
 
 Attribute detail for `indicators`:
 
 Field | Description
 --------- | ----------- | 
-`description` | Description of the risk indicator and the entity name it relates to
-`name` | Category name for the indicator. Name corresponds to the categories shown in the indicator_summary
-`score` | 0-100 score to measure the relatiove risk severity of the indicator. eg. OFAC SDN sanctions are the most severe indicators, and score at 100 
-`source_url` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal
+`category` | A grouping of similar risk types. Corresponds to the categories shown in the summary section.
+`description` | Description of the risk indicator and the entity name it relates to.
+`name` | Summarized description of the indicator. 
+`score` | 0-100 score to measure the relatiove risk severity of the indicator. eg. OFAC SDN sanctions are the most severe indicators, and score at 100.
+`source_url` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal.
 
 Attribute detail for `locations`:
 
 Field | Description
 --------- | ----------- | 
-`addresses` | Address string relating to an entity. Format varies by spurce & jurisdiction
-`country` | Country name
-`country_code` | 2 letter ISO-2 country code
-`source_urls` | One of more source URLs relating to a Location, if available
-`type` | Denotes how the location related to the company. Includes options for `trade` indicates the address was found in shipping records
+`addresses` | Address string relating to an entity. Format varies by spurce & jurisdiction.
+`country` | Country name.
+`country_code` | 2 letter ISO-2 country code.
+`source_urls` | One of more source URLs relating to a Location, if available.
+`type` | Denotes how the location related to the company. Includes options for `trade` indicates the address was found in shipping records.
 
 
 The location `type` attribute currently includes two options:
@@ -344,7 +345,7 @@ The compressed zip file is composed of three files:
       "sigma_url": "https://terminal.sigmaratings.com/open/search?query=YARDPOINT+SALES+LLP&threshold=0.95",
       "indicator_count": {
         "Address Risk": 2,
-        "Operating Risk": 1
+        "Registration Status": 1
       },
       "description_count": 0,
       "total_indicator_count": 3
@@ -398,12 +399,14 @@ The compressed zip file is composed of three files:
           {
             "score": 70,
             "match_name": "Yardpoint Sales Llp",
-            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR, which appears to be associated with Alleged Shell Companies"
+            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR, which appears to be associated with Alleged Shell Companies",
+            "indicator_name": "Address matches Alleged Shell Companies address"
           },
           {
             "score": 70,
             "match_name": "Yardpoint Sales Llp",
-            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE, SUITE B, 2ND FLOOR, POTTERS BAR, HERTFORDSHIRE, EN6 1BW, which appears to be associated with Alleged Shell Companies"
+            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE, SUITE B, 2ND FLOOR, POTTERS BAR, HERTFORDSHIRE, EN6 1BW, which appears to be associated with Alleged Shell Companies",
+            "indicator_name": "Address matches Alleged Shell Companies address"
           }
         ],
         "Operating Risk": [
@@ -411,13 +414,14 @@ The compressed zip file is composed of three files:
             "score": 40,
             "match_name": "Yardpoint Sales Llp",
             "source_url": "https://beta.companieshouse.gov.uk/company/OC374526",
-            "description": "YARDPOINT SALES LLP has a company status of Unknown"
+            "description": "YARDPOINT SALES LLP has a company status of Unknown",
+            "indicator_name":	"Company status is Unknown"
           }
         ]
       },
       "indicator_summary": {
         "Address Risk": 2,
-        "Operating Risk": 1
+        "Registration Status": 1
       }
     }
   ]
