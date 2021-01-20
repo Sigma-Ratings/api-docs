@@ -437,7 +437,7 @@ The compressed zip file is composed of three files:
 }
 ```
 
-To cross reference the error, the `id` field in the error object will correspond to the original `id` of the entity in the payload of the input request. e.g. `id` 1, represents Yardpoint Sales LLP.
+> To help cross reference the errors, the `id` field in the error object, will correspond to the original `id` of the entity in the payload of the input request. e.g. `id` 1 in the errors file, represents Yardpoint Sales LLP in the original input request.
 
 The name of the zip file will be in the form of: `<id>.zip` where the `id` corresponds to the bulk request created.
 
