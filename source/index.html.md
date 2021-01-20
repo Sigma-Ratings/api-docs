@@ -100,12 +100,11 @@ curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
 ```json 
 {
   "summary": {
-    "score": 73.1,
+    "score": 71.8,
     "level": "Severe",
     "detail": {
-      "Address Risk": 1,
-      "Associations Risk": 1,
-      "Operating Risk": 1
+      "Address": 1,
+      "Registration Status": 1
     }
   },
   "results": [
@@ -116,21 +115,17 @@ curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
       "source": "Corporate Registries",
       "indicators": [
         {
-          "name": "Address Risk",
-          "source_url": "",
-          "description": "YARDPOINT SALES LLP is located at 175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW which appears to be associated with Alleged Shell Companies",
-          "score": 70
+          "category": "Registration Status",
+          "description": "YARDPOINT SALES LLP has a company status of Unknown",
+          "name": "Company status is Unknown",
+          "score": 40,
+          "source_url": "https://beta.companieshouse.gov.uk/company/OC374526"
         },
         {
-          "description": "YARDPOINT SALES LLP appears to be associated with a sanctioned person",
-          "name": "Associations Risk",
+          "category": "Address",
+          "description": "Yardpoint Sales Llp is located at 175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR, which appears to be associated with Alleged Shell Companies",
+          "name": "Address  matches Alleged Shell Companies address",
           "score": 70,
-          "source_url": ""
-        },
-        {
-          "description": "YARDPOINT SALES LLP. Highest risk jurisdiction(s) based on Sigma Country Risk Ratings",
-          "name": "Operating Risk",
-          "score": 60,
           "source_url": ""
         }
       ],
@@ -344,11 +339,11 @@ The compressed zip file is composed of three files:
       "score": 71.8,
       "sigma_url": "https://terminal.sigmaratings.com/open/search?query=YARDPOINT+SALES+LLP&threshold=0.95",
       "indicator_count": {
-        "Address Risk": 2,
+        "Address Risk": 1,
         "Registration Status": 1
       },
-      "description_count": 0,
-      "total_indicator_count": 3
+      "description_count": 3,
+      "total_indicator_count": 2
     }
   ]
 }
@@ -395,7 +390,7 @@ The compressed zip file is composed of three files:
       ],
       "sigma_url": "https://terminal.sigmaratings.com/open/search?query=YARDPOINT+SALES+LLP&threshold=0.95",
       "indicators": {
-        "Address Risk": [
+        "Address": [
           {
             "score": 70,
             "match_name": "Yardpoint Sales Llp",
@@ -409,7 +404,7 @@ The compressed zip file is composed of three files:
             "indicator_name": "Address matches Alleged Shell Companies address"
           }
         ],
-        "Operating Risk": [
+        "Registration Status": [
           {
             "score": 40,
             "match_name": "Yardpoint Sales Llp",
@@ -420,7 +415,7 @@ The compressed zip file is composed of three files:
         ]
       },
       "indicator_summary": {
-        "Address Risk": 2,
+        "Address": 2,
         "Registration Status": 1
       }
     }
@@ -441,6 +436,8 @@ The compressed zip file is composed of three files:
   ]
 }
 ```
+
+> To help cross reference the errors, the `id` field in the error object, will correspond to the original `id` of the entity in the payload of the input request. e.g. `id` 1 in the errors file, represents Yardpoint Sales LLP in the original input request.
 
 The name of the zip file will be in the form of: `<id>.zip` where the `id` corresponds to the bulk request created.
 
