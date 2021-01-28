@@ -89,11 +89,13 @@ This endpoint retrieves information about your API key.
 
 Sigma's Risk Scoring powers compliant commercial and financial relationships globally.  It brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the endpoint with an entity name returns a Sigma Risk Score for the specified entity.
 
-A Sigma Risk Score for an entity is calculated based on different factors, these factors are outlined below:
+A Sigma Risk Score for an entity is calculated using different available data, these data points can be summarized as:
 
-- Determine the highest risk indicator for each category.
-- Aggregate risk indicator scores for all categories.
-- The last factor is determined by adding the highest risk indicator to the previously aggregated scores.
+1) Determining the highest risk indicator for each category.
+1) Aggregating the individual risk indicator scores for all categories.
+1) Computing the final score by adding the highest risk indicator to the previously aggregated scores.
+
+The final Sigma Risk Score range is from 0-100.
 
 A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be.
 
