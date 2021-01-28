@@ -91,9 +91,9 @@ Sigma's Risk Scoring powers compliant commercial and financial relationships glo
 
 A Sigma Risk Score for an entity is calculated using different available data, these data points can be summarized as:
 
-1) Determining the highest risk indicator for each category.
-1) Aggregating the individual risk indicator scores for all categories.
-1) Computing the final score by adding the highest risk indicator to the previously aggregated scores.
+1. Determining the highest risk indicator for each category.
+1. Aggregating the individual risk indicator scores for all categories.
+1. Computing the final score by adding the highest risk indicator to the previously aggregated scores.
 
 The final Sigma Risk Score range is from 0-100.
 
