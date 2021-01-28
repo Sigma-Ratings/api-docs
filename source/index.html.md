@@ -89,10 +89,18 @@ This endpoint retrieves information about your API key.
 
 Sigma's Risk Scoring powers compliant commercial and financial relationships globally.  It brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the endpoint with an entity name returns a Sigma Risk Score for the specified entity.
 
+A Sigma Risk Score for an entity is calculated based on different factors, these factors are outlined below:
+
+- Determine the highest risk indicator for each category.
+- Aggregate risk indicator scores for all categories.
+- The last factor is determined by adding the highest risk indicator to the previously aggregated scores.
+
+A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be.
+
 
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
-  -H "Authorization: c2lnbWFyYXRpbmdz" -d '{"filters":{"threshold":0.98, "category":"sigma"}}'
+  -H "Authorization: c2lnbWFyYXRpbmdz" -d '{"filters":{"threshold":0.98, "integrations":"sigma"}}'
 ```
 
 > The above command returns JSON structured like this:
@@ -170,7 +178,7 @@ _**filters**_ can be:
 Filter | Description | Type | 
 -------| ----------- | ----- | 
 `threshold` | A decimal representation of match strength. See below for details on the `strength` attribute | float | 
-`category` | Sigma category filter enables configuration of which integrations are used and how the data is returned | string |
+`integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string |
 
 ### Response
 
@@ -280,7 +288,7 @@ For more information about the ndjson specification, please refer to: <a href='h
 Parameter |  Description | Type | Default
 --------- |  ----------- | ------- | ----------
 `threshold` | A decimal representation of match strength | float | 0.95
-`category` | <name of category here> | string | <insert default value here>
+`integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string | sigma
 
 ### Request body
 > The following is an example of the input file required for the bulk request endpoint:
