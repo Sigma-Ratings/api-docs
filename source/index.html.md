@@ -120,9 +120,9 @@ Risk Level for each Score range:
 
 |Level | Score range|
 ----------- | ---------- |
-|Severe | 100 > 70|
-|Regular| 70 > 10| 
-|Low| < 10|
+|Severe | 70 < 100 |
+|Regular| 10 < 70 | 
+|Low| 0 < 10|
 
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
