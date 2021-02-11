@@ -30,6 +30,17 @@ Run the docs locally
 make run
 ```
 
+Deploying main branch to production
+------------
+
+In this repository, go to Actions -> Select the `Deploy docs to production` workflow:
+
+1) Select Run workflow
+1) Select the branch to deploy, e.g. `main`
+1) Select Run workflow
+
+![Deploy to prod screenshot](images/deploy_to_prod.png)
+
 Getting an API key
 ------------
 
