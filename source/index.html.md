@@ -205,6 +205,7 @@ Filter | Description | Type |
 -------| ----------- | ----- | 
 `threshold` | A decimal representation of match strength. See below for details on the `strength` attribute | float | 
 `integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string |
+`countries` | A list of iso country codes to limit matches | [string]|
 
 ### Response
 
