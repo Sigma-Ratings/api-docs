@@ -205,7 +205,7 @@ Filter | Description | Type |
 -------| ----------- | ----- | 
 `threshold` | A decimal representation of match strength. See below for details on the `strength` attribute | float | 
 `integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string |
-`countries` | A list of iso country codes to limit matches | [string]|
+`countries` | A list of 2 letter [ISO-2 country code](https://www.iso.org/iso-3166-country-codes.html) to limit matches. Example: `["US","BR","BE","AU"]` | []string |
 
 ### Response
 
@@ -260,7 +260,7 @@ Field | Description
 --------- | ----------- | 
 `addresses` | Address string relating to an entity. Format varies by spurce & jurisdiction.
 `country` | Country name.
-`country_code` | 2 letter ISO-2 country code.
+`country_code` | 2 letter [ISO-2 country code](https://www.iso.org/iso-3166-country-codes.html).
 `source_urls` | One of more source URLs relating to a Location, if available.
 `type` | Denotes how the location related to the company. Includes options for `trade` indicates the address was found in shipping records.
 
@@ -277,8 +277,8 @@ Type | Description
 ## Bulk Risk Scoring
 ```shell
 cat entities.json
-{"id":"1", "YARDPOINT SALES LLP"}
-{"id":"2", "Sigma Ratings"}
+{"id":"1", "name":"YARDPOINT SALES LLP"}
+{"id":"2", "name":"Sigma Ratings"}
 
 curl "https://api.sigmaratings.com/v1/bulk"
   -H "Authorization: mZGVtbzpwQDU1dzByZA==" -H "Content-Type: application/x-ndjson"
