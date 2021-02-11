@@ -101,7 +101,7 @@ Individual Risk Indicator scores have a minimum possible and maximum possible ra
 
 | Category | Minimum Score | Maximum Score |
 | --------- | ----------- | ---------- |
-| Sanctions|80|100|
+| Sanctions | 80  | 100 |
 | Enforcement Action |	40 |	80 |
 | Transparency |	40 |	80 |
 | PEP |	20 |	70 |
