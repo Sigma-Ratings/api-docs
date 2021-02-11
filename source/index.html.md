@@ -99,6 +99,7 @@ The final Sigma Risk Score range is from 0-100.
 
 Ranges of each indicator category:
 |Category|Min Score|Max Score|
+--------- | ----------- | ---------- |
 |Sanctions|	80|	100|
 |Enforcement Action|	40|	80|
 |Transparency|	40|	80|
