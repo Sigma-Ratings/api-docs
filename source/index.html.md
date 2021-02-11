@@ -117,9 +117,12 @@ Ranges of each indicator category:
 A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be. 
 
 Risk Level for each Score range: 
-Severe: Score = 100 > 70
-Regular: Score = 70 > 10 
-Low: Score < 10
+
+|Level | Score range|
+----------- | ---------- |
+|Severe | 100 > 70|
+|Regular| 70 > 10| 
+|Low| < 10|
 
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
