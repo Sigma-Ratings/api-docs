@@ -99,21 +99,22 @@ The final Sigma Risk Score range is from 0-100.
 
 Individual Risk Indicator scores have a minimum possible and maximum possible range, these ranges are listed below:
 
-| Category | Minimum Score | Maximum Score |
-| --------- | ----------- | ---------- |
-| Sanctions | 80  | 100 |
-| Enforcement Action |	40 |	80 |
-| Transparency |	40 |	80 |
-| PEP |	20 |	70 |
-| State Owned Entity |	20 |	70 |
-| Address |	70|	70 |
-| Restricted Entity |	70 |	70 |
-| Line of Business |	20 |	60 |
-| Registration Status |	20 |	60 |
-| Jurisdiction |	20 |	60 |
-| Adverse Media |	20 |	50 |
-| Global Trade |	30 |	50 | 
-| Leadership |	10 |	10 |
+Category | Minimum Score | Maximum Score
+| --------- | :-----------: | :----------: |
+Sanctions | 80 | 100
+Enforcement Action |	40 |	80
+Transparency |	40 |	80
+PEP |	20 |	70
+State Owned Entity |	20 |	70
+Address |	70 |	70
+Restricted Entity |	70 |	70
+Line of Business |	20 |	60 
+Registration Status |	20 |	60
+Jurisdiction |	20 |	60
+Adverse Media |	20 |	50
+Global Trade |	30 |	50
+Leadership |	10 |	10
+
 
 A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be. 
 
