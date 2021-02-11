@@ -97,8 +97,28 @@ A Sigma Risk Score for an entity is calculated using different available data po
 
 The final Sigma Risk Score range is from 0-100.
 
-A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be.
+Ranges of each indicator category:
+|Category|Min Score|Max Score|
+|Sanctions|	80|	100|
+|Enforcement Action|	40|	80|
+|Transparency|	40|	80|
+|PEP|	20|	70|
+|Stagte Owned Entity|	20|	70|
+|Address|	70|	70|
+|Restrticted Entity|	70|	70|
+|Line of Business|	20|	60|
+|Registration Status|	20|	60|
+|Juridiction|	20|	60|
+|Adverse Media|	20|	50|
+|Global Trade|	30|	50|
+|Leadership|	10|	10|
 
+A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be. 
+
+Risk Level for each Score range: 
+Severe: Score = 100 > 70
+Regular: Score = 70 > 10 
+Low: Score < 10
 
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
