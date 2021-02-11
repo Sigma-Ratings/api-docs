@@ -97,8 +97,8 @@ A Sigma Risk Score for an entity is calculated using different available data po
 
 The final Sigma Risk Score range is from 0-100.
 
-Ranges of each indicator category:
-|Category|Score min|Score max|
+Individual Risk Indicator scores have a minimum possible and maximum possible range, these ranges are listed below:
+|Category|Minimum Score|Maximum Score|
 --------- | ----------- | ---------- |
 |Sanctions|	80|	100|
 |Enforcement Action|	40|	80|
