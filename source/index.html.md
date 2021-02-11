@@ -98,18 +98,18 @@ A Sigma Risk Score for an entity is calculated using different available data po
 The final Sigma Risk Score range is from 0-100.
 
 Ranges of each indicator category:
-|Category|Min Score|Max Score|
+|Category|Score min|Score max|
 --------- | ----------- | ---------- |
 |Sanctions|	80|	100|
 |Enforcement Action|	40|	80|
 |Transparency|	40|	80|
 |PEP|	20|	70|
-|Stagte Owned Entity|	20|	70|
+|State Owned Entity|	20|	70|
 |Address|	70|	70|
-|Restrticted Entity|	70|	70|
+|Restricted Entity|	70|	70|
 |Line of Business|	20|	60|
 |Registration Status|	20|	60|
-|Juridiction|	20|	60|
+|Jurisdiction|	20|	60|
 |Adverse Media|	20|	50|
 |Global Trade|	30|	50|
 |Leadership|	10|	10|
@@ -118,7 +118,7 @@ A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the r
 
 Risk Level for each Score range: 
 
-|Level | Score range|
+|Level | Score |
 ----------- | ---------- |
 |Severe | 70 < 100 |
 |Regular| 10 < 70 | 
