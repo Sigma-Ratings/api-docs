@@ -321,8 +321,8 @@ Parameter |  Description | Type | Default
 > The following is an example of the input file required for the bulk request endpoint:
 
 ```json
-{"id":"1", "Yardpoint Sales LLP"}
-{"id":"2", "Sigma Ratings"}
+{"id":"1", "name": "Yardpoint Sales LLP"}
+{"id":"2", "name": "Sigma Ratings"}
 ```
 
 The contents of the request body is a sequence of newline delimited JSON requests.
