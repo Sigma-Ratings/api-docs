@@ -85,6 +85,101 @@ This endpoint retrieves information about your API key.
 
 `GET https://api.sigmaratings.com/v1/acccount_status`
 
+## Audit
+
+```shell
+curl "https://api.sigmaratings.com/v1/audit/:id"
+  -H "Authorization: c2lnbWFyYXRpbmdz"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": "e723887d-4e3b-42ee-820c-339602aaa72c",
+  "metadata": {
+    "created": "2021-02-24T22:25:10.889959978Z"
+  },
+  "organization_id": "urn:sigma:organization:sigma-ratings",
+  "request": {
+    "filters": {
+      "category": "sigma",
+      "threshold": 0.95
+    }
+  },
+  "response":  {
+    "summary": {
+      "score": 71.8,
+      "level": "Severe",
+      "detail": {
+        "Address": 1,
+        "Registration Status": 1
+      }
+    },
+    "results": [
+      {
+        "name": "YARDPOINT SALES LLP",
+        "type": "company",
+        "strength": 0.9433497536945812,
+        "source": "Corporate Registries",
+        "indicators": [
+          {
+            "category": "Registration Status",
+            "description": "YARDPOINT SALES LLP has a company status of Unknown",
+            "name": "Company status is Unknown",
+            "score": 40,
+            "source_url": "https://beta.companieshouse.gov.uk/company/OC374526"
+          },
+          {
+            "category": "Address",
+            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR, which appears to be associated with Alleged Shell Companies",
+            "name": "Address  matches Alleged Shell Companies address",
+            "score": 70,
+            "source_url": ""
+          }
+        ],
+        "locations": [
+          {
+            "country": "United Kingdom",
+            "country_code": "GB",
+            "type": "headquarters",
+            "source_urls": [
+              "https://opencorporates.com/companies/gb/OC374526"
+            ],
+            "addresses": [
+              {
+                "address": "175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "user_id": ""
+}
+```
+
+This endpoint retrieves individual audit records. An audit record represents the request and response that was submitted using Sigma's API and it is used for traceability.
+
+The following section describes in detail each field in the audit record:
+
+Field | Description
+--------- | ----------- | 
+`audit_id` | Sigma's internal unique identifier assigned to a request.|
+`user_id` | Represents the user that submitted the request. |
+`organization_id` | Represents the organization for which the request was submitted. |
+`request` | The request that was submitted as JSON payload. |
+`response` | The response from the original request as JSON. |
+`metadata` | Metadata from the original request. | 
+
+
+Each request from the [risk](#risk-scoring) endpoint generates and `audit_id` field in its response, this id can be used to retrieve an audit record.
+
+### HTTP Request
+
+`GET https://api.sigmaratings.com/v1/audit/:id`
+
 ## Risk Scoring
 
 Sigma's Risk Scoring powers compliant commercial and financial relationships globally.  It brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the endpoint with an entity name returns a Sigma Risk Score for the specified entity.
@@ -135,6 +230,7 @@ curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
 
 ```json 
 {
+  "audit_id": "f4f82e86-d760-4e68-8cac-bc194af42922",
   "summary": {
     "score": 71.8,
     "level": "Severe",
@@ -211,7 +307,7 @@ Filter | Description | Type |
 
 ### Response
 
-The API response is structured as a `summary` section and `results` section. The summary data aggregates the results and can be used to build busines logic such as prioritizing investigations and segmenting searches. The results data enumerates all of the entity matches and their corresponding indicators and supporting data.
+The API response is structured as: an `audit_id`, a `summary` section and `results` section. The `audit_id` is a uniquely identified id that can be used with the [audit endpoint](#audit) to retrieve a previously executed request. The `summary` data aggregates the results and can be used to build busines logic such as prioritizing investigations and segmenting searches. The `results` data enumerates all of the entity matches and their corresponding indicators and supporting data.
 
 _**Summary Data**_ 
 
