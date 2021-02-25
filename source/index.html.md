@@ -196,14 +196,14 @@ Individual Risk Indicator scores have a minimum possible and maximum possible ra
 
 Category | Minimum Score | Maximum Score
 | --------- | :-----------: | :----------: |
-Sanctions | 80 | 100
+Sanctions | 70 | 100
 Transparency |	0 |	80
 Enforcement Action |	40 |	70
 Restricted Entity |	70 |	70
 Address |	40 |	70
 Registration Status |	0 |	70
-Adverse Media |	40 |	70
 Jurisdiction |	40 |	60
+Adverse Media |	40 |	50
 Global Trade |	20 |	50
 PEP |	20 |	40
 Line of Business |	20 |	40 
