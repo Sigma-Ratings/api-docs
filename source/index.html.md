@@ -197,18 +197,18 @@ Individual Risk Indicator scores have a minimum possible and maximum possible ra
 Category | Minimum Score | Maximum Score
 | --------- | :-----------: | :----------: |
 Sanctions | 80 | 100
-Enforcement Action |	40 |	80
-Transparency |	40 |	80
-PEP |	20 |	70
-State Owned Entity |	20 |	70
-Address |	70 |	70
+Transparency |	0 |	80
+Enforcement Action |	40 |	70
 Restricted Entity |	70 |	70
-Line of Business |	20 |	60 
-Registration Status |	20 |	60
-Jurisdiction |	20 |	60
-Adverse Media |	20 |	50
-Global Trade |	30 |	50
-Leadership |	10 |	10
+Address |	40 |	70
+Registration Status |	0 |	70
+Adverse Media |	40 |	70
+Jurisdiction |	40 |	60
+Global Trade |	20 |	50
+PEP |	20 |	40
+Line of Business |	20 |	40 
+State Owned Entity |	20 |	20
+Sustainability |	10 |	10
 
 
 A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be. 
