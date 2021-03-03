@@ -182,44 +182,7 @@ Each request from the [risk](#risk-scoring) endpoint generates and `audit_id` fi
 
 ## Risk Scoring
 
-Sigma's Risk Scoring powers compliant commercial and financial relationships globally.  It brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the endpoint with an entity name returns a Sigma Risk Score for the specified entity.
 
-A Sigma Risk Score for an entity is calculated using different available data points, these data points can be summarized as:
-
-1. Determining the highest risk indicator for each category.
-1. Aggregating the individual risk indicator scores for all categories.
-1. Computing the final score by adding the highest risk indicator to the previously aggregated scores.
-
-The final Sigma Risk Score range is from 0-100.
-
-Individual Risk Indicator scores have a minimum possible and maximum possible range, these ranges are listed below:
-
-Category | Minimum Score | Maximum Score
-| --------- | :-----------: | :----------: |
-Sanctions | 70 | 100
-Transparency |	0 |	80
-Enforcement Action |	40 |	70
-Restricted Entity |	70 |	70
-Address |	40 |	70
-Registration Status |	0 |	70
-Jurisdiction |	40 |	60
-Adverse Media |	40 |	50
-Global Trade |	20 |	50
-PEP |	20 |	40
-Line of Business |	20 |	40 
-State Owned Entity |	20 |	20
-Sustainability |	10 |	10
-
-
-A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be. 
-
-Risk Level for each Score range: 
-
-| Level | Score |
-| ----------- | ---------- |
-| Severe | 70 < 100 |
-| Regular | 10 < 70 | 
-| Low | 0 < 10|
 
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
@@ -280,6 +243,46 @@ curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
   ]
 }
 ```
+
+Sigma's Risk Scoring powers compliant commercial and financial relationships globally.  It brings together over 60 proprietary financial crime-related risk indicators to derive entity risk scores from Sigma's database, which now includes 750 million companies, people and other legal entities. Calling the endpoint with an entity name returns a Sigma Risk Score for the specified entity.
+
+A Sigma Risk Score for an entity is calculated using different available data points, these data points can be summarized as:
+
+1. Determining the highest risk indicator for each category.
+1. Aggregating the individual risk indicator scores for all categories.
+1. Computing the final score by adding the highest risk indicator to the previously aggregated scores.
+
+The final Sigma Risk Score range is from 0-100.
+
+Individual Risk Indicator scores have a minimum possible and maximum possible range, these ranges are listed below:
+
+Category | Minimum Score | Maximum Score
+| --------- | :-----------: | :----------: |
+Sanctions | 70 | 100
+Transparency |	0 |	80
+Enforcement Action |	40 |	70
+Restricted Entity |	70 |	70
+Address |	40 |	70
+Registration Status |	0 |	70
+Jurisdiction |	40 |	60
+Adverse Media |	40 |	50
+Global Trade |	20 |	50
+PEP |	20 |	40
+Line of Business |	20 |	40 
+State Owned Entity |	20 |	20
+Sustainability |	10 |	10
+
+
+A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be. 
+
+Risk Level for each Score range: 
+
+| Level | Score |
+| ----------- | ---------- |
+| Severe | 70 < 100 |
+| Regular | 10 < 70 | 
+| Low | 0 < 10|
+
 
 ### HTTP Request
 
