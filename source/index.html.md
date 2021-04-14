@@ -270,7 +270,7 @@ Global Trade |	20 |	50
 PEP |	20 |	40
 Line of Business |	20 |	40 
 State Owned Entity |	20 |	20
-Leadership |	10 |	10
+Leadership |	10 |	30
 
 
 A Sigma Risk Level is determined based on the Sigma Risk Score, the higher the risk, the more severe the assigned level will be. 
