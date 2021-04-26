@@ -307,6 +307,7 @@ Filter | Description | Type |
 `threshold` | A decimal representation of match strength. See below for details on the `strength` attribute | float | 
 `integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string |
 `countries` | A list of 2 letter [ISO-2 country code](https://www.iso.org/iso-3166-country-codes.html) to limit matches. Example: `["US","BR","BE","AU"]` | []string |
+`indicators` | A commma separated list of indicators to filter by | string
 
 ### Response
 
@@ -411,12 +412,36 @@ to separate each entry, JSON entries must not include `\n`'s as delimiters.
 </aside>
 For more information about the ndjson specification, please refer to: <a href='http://ndjson.org'>ndjson.org</a>.
 
-### URL Parameters
+### Query Parameters
 
 Parameter |  Description | Type | Default
 --------- |  ----------- | ------- | ----------
 `threshold` | A decimal representation of match strength | float | 0.95
-`integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string | sigma
+`integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string | basic
+`indicators` | A commma separated list of indicators to filter by | string | empty
+
+#### Available integrations:
+
+- `fast` 
+- `basic` 
+- `extended` 
+
+#### Available Indicators:
+
+- `Address`
+- `Adverse Media`
+- `Enforcement Action`
+- `Global Trace`
+- `Jurisdiction`
+- `Leadership`
+- `Line of Business`
+- `PEP`
+- `Regisration Status`
+- `Restricted Entity`
+- `Sanctions`
+- `State Owned Entity`
+- `Transparency`  
+- `Personnel`
 
 ### Request body
 > The following is an example of the input file required for the bulk request endpoint:
