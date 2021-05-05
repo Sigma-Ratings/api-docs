@@ -341,7 +341,7 @@ Field | Description
 `description` | Business description of entity that a match corresponds to. Descriptions can be stated business descriptions from external sources, or Sigma derived from trade activity.
 `indicators` | Summary of each Risk Indicator found in the search. See below for detail.
 `locations` | Country and address data found that relates to the matched entity. See below for detail
-`name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or transliterated or translated name.
+`match_name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or transliterated or translated name.
 `source` | Name of Sigma data integration the match is sourced from.
 `strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on their strength.
 `type` | Denotes which Sigma Search option the match was returned from. Can be Company or People. Note Company search may return entities that are People, where they exist in unstructured or loosely structured sources.
@@ -354,7 +354,7 @@ Field | Description
 `description` | Description of the risk indicator and the entity name it relates to.
 `name` | Summarized description of the indicator. 
 `score` | 0-100 score to measure the relatiove risk severity of the indicator. eg. OFAC SDN sanctions are the most severe indicators, and score at 100.
-`source_url` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal.
+`source_urls` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal.
 
 Attribute detail for `locations`:
 
@@ -417,16 +417,17 @@ For more information about the ndjson specification, please refer to: <a href='h
 Parameter |  Description | Type | Default
 --------- |  ----------- | ------- | ----------
 `threshold` | A decimal representation of match strength | float | 0.95
-`integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string | basic
+`mode` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string | basic
 `indicators` | A commma separated list of indicators to filter by | string | empty
+`countries` | A comma separated list of countries to filter by | string | empty
 
-#### Available integrations:
+### Available modes:
 
-- `fast` 
-- `basic` 
-- `extended` 
+- `scan` Provides an essential view of sanctions, PEPs, and adverse news available.
+- `basic` Scan, plus address, jurisdiction, association, and additional risks important in a more in depth review of risk .
+- `sigma` The full Sigma view of risk, including everything in basic plus trade and state owned enterprise indicators.
 
-#### Available Indicators:
+### Available Indicators:
 
 - `Address`
 - `Adverse Media`
@@ -473,6 +474,15 @@ curl "https://api.sigmaratings.com/v1/bulk/:id"
     "total_num_completed": 1,
     "total_num_processing": 0,
     "total_num_remaining": 0
+  },
+   "settings": {
+    "indicators": [
+      "Enforcement Action",
+      "Address",
+      "Adverse Media",
+    ],
+    "mode": "basic",
+    "threshold": 0.98
   }
 }
 ```
@@ -613,18 +623,19 @@ Field |  Description
 `id` | A UUID to reference the request 
 `status` | [Status](#status) of request. 
 `presigned_url` | URL to download request submitted. A presigned url is a URL with a temporary access to the download location. This field is only present when the request is completed. 
-`created_at` | Date when request was created
-`completed_at` | Date when request was completed
-`batches` | Status of request indicating processing status
+`created_at` | Date when request was created.
+`completed_at` | Date when request was completed.
+`batches` | Status of request indicating processing status.
+`settings` | Indicates the settings specified in the original request.
 
 ### Status
 
 Name | Description
 -----| -------------
-`Submitted` | Request was submitted
-`Processing` | Bulk Request has begun processing
-`Uploading` | Bulk Request has been processed and is being uploaded
-`Completed` | Request was completed successfully 
+`Submitted` | Request was submitted.
+`Processing` | Bulk Request has begun processing.
+`Uploading` | Bulk Request has been processed and is being uploaded.
+`Completed` | Request was completed successfully.
 `Completed With Errors` | Request was completed and there are errors in the request. An errors.json file will be present.
 
 
