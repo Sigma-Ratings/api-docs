@@ -186,7 +186,7 @@ Each request from the [risk](#risk-scoring) endpoint generates and `audit_id` fi
 
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
-  -H "Authorization: c2lnbWFyYXRpbmdz" -d '{"filters":{"threshold":0.98, "integrations":"sigma"}}'
+  -H "Authorization: c2lnbWFyYXRpbmdz" -d '{"filters":{"threshold":0.98, "mode":"sigma"}}'
 ```
 
 > The above command returns JSON structured like this:
@@ -305,7 +305,7 @@ _**filters**_ can be:
 Filter | Description | Type | 
 -------| ----------- | ----- | 
 `threshold` | A decimal representation of match strength. See below for details on the `strength` attribute | float | 
-`integrations` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string |
+`mode` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string |
 `countries` | A list of 2 letter [ISO-2 country code](https://www.iso.org/iso-3166-country-codes.html) to limit matches. Example: `["US","BR","BE","AU"]` | []string |
 `indicators` | A commma separated list of indicators to filter by | string
 
