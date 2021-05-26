@@ -427,7 +427,7 @@ Parameter |  Description | Type | Default
 - `Address`
 - `Adverse Media`
 - `Enforcement Action`
-- `Global Trace`
+- `Global Trade`
 - `Jurisdiction`
 - `Leadership`
 - `Line of Business`
