@@ -301,7 +301,7 @@ Filter | Description | Type |
 `threshold` | A decimal representation of match strength. See below for details on the `strength` attribute | float | 
 `mode` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string |
 `countries` | A list of 2 letter [ISO-2 country code](https://www.iso.org/iso-3166-country-codes.html) to limit matches. Example: `["US","BR","BE","AU"]` | []string |
-`indicators` | A commma separated list of indicators to filter by | string
+`indicators` | A string array of indicators to filter by | string
 
 ### Response
 
