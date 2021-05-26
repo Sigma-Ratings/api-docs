@@ -110,7 +110,7 @@ curl "https://api.sigmaratings.com/v1/audit/:id"
   "response":  {
     "summary": {
       "score": 71.8,
-      "level": "Severe",
+      "level": "Elevated",
       "detail": {
         "Address": 1,
         "Registration Status": 1
@@ -232,7 +232,7 @@ curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
     "detail": {
       "Address": 1
     },
-    "level": "Severe",
+    "level": "Elevated",
     "score": 70.7
   }
 }
@@ -273,9 +273,9 @@ Risk Level for each Score range:
 
 | Level | Score |
 | ----------- | ---------- |
-| Severe | 70 < 100 |
-| Regular | 10 < 70 | 
-| Low | 0 < 10|
+| Elevated | 70 < 100 |
+| Standard | 10 < 70 | 
+| Neutral | 0 < 10|
 
 
 ### HTTP Request
@@ -319,9 +319,9 @@ The `level` attribute includes four options:
 
 Level | Description
 --------- | ----------- | 
-`Severe` | Overall score above 70. At least one high-risk AML typology included in the risk indicators found in search. | 
-`Regular` | Overall score greater than zero and less than 70. At least one risk indicator found in search. |
-`Low` | Overall score of zero with at least on description found. Sigma has found data that may indicate line of business. |
+`Elevated` | Overall score above 70. At least one high-risk AML typology included in the risk indicators found in search. | 
+`Standard` | Overall score greater than zero and less than 70. At least one risk indicator found in search. |
+`Neutral` | Overall score of zero with at least on description found. Sigma has found data that may indicate line of business. |
 `Unidentified` | No indicators or descriptions found in search. Minimal data identified across Sigma sources. Results may include location data via a corporate registry, but no line of business information available. |
 
 
@@ -501,7 +501,7 @@ The compressed zip file is composed of three files:
     {
       "id": "1",
       "name": "YARDPOINT SALES LLP",
-      "level": "Severe",
+      "level": "Elevated",
       "score": 71.8,
       "sigma_url": "https://terminal.sigmaratings.com/open/search?query=YARDPOINT+SALES+LLP&threshold=0.95",
       "indicator_count": {
@@ -526,7 +526,7 @@ The compressed zip file is composed of three files:
     {
       "id": "1",
       "name": "YARDPOINT SALES LLP",
-      "level": "Severe",
+      "level": "Elevated",
       "score": 71.8,
       "locations": [
         {
