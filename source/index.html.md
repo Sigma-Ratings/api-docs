@@ -193,54 +193,48 @@ curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
 
 ```json 
 {
-  "audit_id": "f4f82e86-d760-4e68-8cac-bc194af42922",
-  "summary": {
-    "score": 71.8,
-    "level": "Severe",
-    "detail": {
-      "Address": 1,
-      "Registration Status": 1
-    }
-  },
+  "audit_id": "753a3714-2e3d-4a5b-b99e-5c802cb4ac16",
   "results": [
     {
-      "name": "YARDPOINT SALES LLP",
-      "type": "company",
-      "strength": 0.9433497536945812,
-      "source": "Corporate Registries",
+      "description": null,
       "indicators": [
         {
-          "category": "Registration Status",
-          "description": "YARDPOINT SALES LLP has a company status of Unknown",
-          "name": "Company status is Unknown",
-          "score": 40,
-          "source_url": "https://beta.companieshouse.gov.uk/company/OC374526"
-        },
-        {
           "category": "Address",
-          "description": "Yardpoint Sales Llp is located at 175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR, which appears to be associated with Alleged Shell Companies",
+          "description": "175 Darkes Lane Suite B, 2nd Floor, Brosnan House, Potters Bar, Hertfordshire, England, EN6 1BW, UK, United Kingdom",
           "name": "Address  matches Alleged Shell Companies address",
           "score": 70,
-          "source_url": ""
+          "source_urls": [],
+          "urn": "urn:sigma:indicator:qRB69Boi1k-eNZYbpwMDwwKvU3sCeQvJV_7-29CS7zw="
         }
       ],
       "locations": [
         {
+          "addresses": [
+            "175 DARKES LANE, SUITE B, 2ND FLOOR, POTTERS BAR, HERTFORDSHIRE, EN6 1BW"
+          ],
           "country": "United Kingdom",
           "country_code": "GB",
-          "type": "headquarters",
-          "source_urls": [
-            "https://opencorporates.com/companies/gb/OC374526"
-          ],
-          "addresses": [
-            {
-              "address": "175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
-            }
-          ]
+          "source_urls": null,
+          "type": "Unspecified"
         }
-      ]
+      ],
+      "match_name": "Yardpoint Sales Llp",
+      "source": {
+        "key": "sayari",
+        "matchId": "Aphm-9QnsXBdPKg6Dx4O5Q",
+        "name": "Sayari"
+      },
+      "strength": 1,
+      "type": "company"
     }
-  ]
+  ],
+  "summary": {
+    "detail": {
+      "Address": 1
+    },
+    "level": "Severe",
+    "score": 70.7
+  }
 }
 ```
 
@@ -355,6 +349,7 @@ Field | Description
 `name` | Summarized description of the indicator. 
 `score` | 0-100 score to measure the relatiove risk severity of the indicator. eg. OFAC SDN sanctions are the most severe indicators, and score at 100.
 `source_urls` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal.
+`urn` | Unique identifier for indicator
 
 Attribute detail for `locations`:
 
