@@ -371,7 +371,9 @@ Type | Description
 `Unspecified` | Indicates the address found but no available information on address type. |
 
 
-## Bulk Risk Scoring
+## Bulk
+
+###  Risk Scoring
 ```shell
 cat entities.json
 {"id":"1", "name":"YARDPOINT SALES LLP"}
@@ -396,7 +398,7 @@ The Bulk Risk Scoring endpoint performs multiple requests of the [Risk Scoring](
 
 The Bulk Risk Scoring endpoint provides an `id`, which can be used to verify the status of the bulk request and retrieve the results of the request using the [Bulk Risk Scoring Status](#bulk-risk-scoring-status) endpoint.
 
-### HTTP Request
+#### HTTP Request
 
 `POST https://api.sigmaratings.com/v1/bulk`
 
@@ -407,7 +409,7 @@ to separate each entry, JSON entries must not include `\n`'s as delimiters.
 </aside>
 For more information about the ndjson specification, please refer to: <a href='http://ndjson.org'>ndjson.org</a>.
 
-### Query Parameters
+#### Query Parameters
 
 Parameter |  Description | Type | Default
 --------- |  ----------- | ------- | ----------
@@ -415,14 +417,15 @@ Parameter |  Description | Type | Default
 `mode` | Sigma integrations filter enables configuration of which integrations are used and how the data is returned | string | basic
 `indicators` | A commma separated list of indicators to filter by | string | empty
 `countries` | A comma separated list of countries to filter by | string | empty
+`monitored` | A boolean value indicating whether entities should be monitored or not | boolean | false
 
-### Available modes:
+#### Available modes:
 
 - `scan` Provides an essential view of sanctions, PEPs, and adverse news available.
 - `basic` Scan, plus address, jurisdiction, association, and additional risks important in a more in depth review of risk .
 - `sigma` The full Sigma view of risk, including everything in basic plus trade and state owned enterprise indicators.
 
-### Available Indicators:
+#### Available Indicators:
 
 - `Address`
 - `Adverse Media`
@@ -439,7 +442,7 @@ Parameter |  Description | Type | Default
 - `Transparency`  
 - `Personnel`
 
-### Request body
+#### Request body
 > The following is an example of the input file required for the bulk request endpoint:
 
 ```json
@@ -449,7 +452,7 @@ Parameter |  Description | Type | Default
 
 The contents of the request body is a sequence of newline delimited JSON requests.
 
-## Bulk Risk Scoring Status
+#### Risk Scoring Status
 ```shell
 curl "https://api.sigmaratings.com/v1/bulk/:id"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
@@ -607,11 +610,11 @@ The compressed zip file is composed of three files:
 
 The name of the zip file will be in the form of: `<id>.zip` where the `id` corresponds to the bulk request created.
 
-### HTTP Request
+#### HTTP Request
 
 `GET https://api.sigmaratings.com/v1/bulk/:id`
 
-### Response details
+#### Response details
 
 Field |  Description 
 --------- |  -----------
@@ -623,7 +626,7 @@ Field |  Description
 `batches` | Status of request indicating processing status.
 `settings` | Indicates the settings specified in the original request.
 
-### Status
+#### Status
 
 Name | Description
 -----| -------------
@@ -633,6 +636,256 @@ Name | Description
 `Completed` | Request was completed successfully.
 `Completed With Errors` | Request was completed and there are errors in the request. An errors.json file will be present.
 
+## Monitoring
+
+### Bulk details
+
+Monitoring provides the ability to continuously monitor a group of related entities that are grouped by a bulk id. To start monitoring a group of related entities use the 
+[bulk endpoint](#Bulk Risk Scoring) and specify `true` on the `monitored` query parameter of the [bulk endpoint](#Bulk Risk Scoring). Updates to the entities are calculated periodically and [retrievable individually](# Monitor Updates) or by [bulk id](# Bulk Monitor Updates).
+
+```shell
+curl "https://api.sigmaratings.com/v1/monitor/bulk/:id"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+  {
+  "data": [
+   {
+     "created_at": "2020-12-16T17:16:38.9416755Z",
+     "monitored": true,
+     "name": "YARDPOINT SALES LLP",
+     "task_id": "424ff463-fd9b-4df8-99d8-f5ce2146502e",
+     "threshold": 0.98,
+     "updated_at": "2020-12-16T17:16:48.9416755Z",
+     "urn": "urn:sigma:entity:9699f250-65e8-42be-9a92-c5bbf7cf82af"
+   }
+    
+  ],
+  "next": 1,
+  "previous": null,
+  "total": 526
+}
+```
+
+#### HTTP Request
+
+`GET https://api.sigmaratings.com/v1/monitor/bulk/:id`
+
+#### Response details
+
+Field |  Description 
+--------- |  -----------
+`created_at` | A UUID to reference the request 
+`monitored` | [Status](#status) of request. 
+`name` | URL to download request submitted. A presigned url is a URL with a temporary access to the download location. This field is only present when the request is completed. 
+`task_id` | a
+`threshold` | Date when request was completed.
+`updated_at` | Date when request was created.
+`urn` | Status of request indicating processing status.
 
 
+### Entity details
+
+Entity details provides the latest risk score calculated for the individual entity
+
+```shell
+curl "https://api.sigmaratings.com/v1/monitor/entity/:id"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+  {
+  "monitored": true,
+  "name": "YARDPOINT SALES LLP",
+  "risk": {
+    "summary": {
+      "score": 71.8,
+      "level": "Severe",
+      "detail": {
+        "Address": 1,
+        "Registration Status": 1
+      }
+    },
+   "results": [
+      {
+        "name": "YARDPOINT SALES LLP",
+        "type": "company",
+        "strength": 0.9433497536945812,
+        "source": "Corporate Registries",
+        "indicators": [
+          {
+            "category": "Registration Status",
+            "description": "YARDPOINT SALES LLP has a company status of Unknown",
+            "name": "Company status is Unknown",
+            "score": 40,
+            "source_url": "https://beta.companieshouse.gov.uk/company/OC374526"
+          },
+          {
+            "category": "Address",
+            "description": "Yardpoint Sales Llp is located at 175 DARKES LANE,SUITE B, 2ND FLOOR,HERTFORDSHIRE,EN6 1BW,POTTERS BAR, which appears to be associated with Alleged Shell Companies",
+            "name": "Address  matches Alleged Shell Companies address",
+            "score": 70,
+            "source_url": ""
+          }
+        ],
+        "locations": [
+          {
+            "country": "United Kingdom",
+            "country_code": "GB",
+            "type": "headquarters",
+            "source_urls": [
+              "https://opencorporates.com/companies/gb/OC374526"
+            ],
+            "addresses": [
+              {
+                "address": "175 Darkes Lane Suite B, 2nd Floor, Potters Bar, Hertfordshire, EN6 1BW"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "urn":"urn:sigma:entity:9699f250-65e8-42be-9a92-c5bbf7cf82af"
+}
+```
+
+### HTTP Request
+
+`GET https://api.sigmaratings.com/v1/monitor/bulk/:id`
+
+### Response details
+
+Field |  Description 
+--------- |  -----------
+`urn` | Unique resource identifier of entity
+`monitored` | Indicates whether the entity is being monitored or not.
+`name` | Entity name
+`risk` | See detailed description of results object below.
+
+_**Results**_
+
+The results section includes detail of all available entity matches. Each match can have one or more risk indicators and supporting data such as locations and business descriptions.
+
+Field | Description
+--------- | ----------- | 
+`description` | Business description of entity that a match corresponds to. Descriptions can be stated business descriptions from external sources, or Sigma derived from trade activity.
+`indicators` | Summary of each Risk Indicator found in the search. See below for detail.
+`locations` | Country and address data found that relates to the matched entity. See below for detail
+`match_name` | Entity name for the corresponding match. Name may be the primary entity name, an alias, or transliterated or translated name.
+`source` | Name of Sigma data integration the match is sourced from.
+`strength` | 0-1 score to measure how close the match name is to the entity name being searched as the `q` parameter. The threshold filter can be used to limit returned matches based on their strength.
+`type` | Denotes which Sigma Search option the match was returned from. Can be Company or People. Note Company search may return entities that are People, where they exist in unstructured or loosely structured sources.
+
+Attribute detail for `indicators`:
+
+Field | Description
+--------- | ----------- | 
+`category` | A grouping of similar risk types. Corresponds to the categories shown in the summary section.
+`description` | Description of the risk indicator and the entity name it relates to.
+`name` | Summarized description of the indicator. 
+`score` | 0-100 score to measure the relatiove risk severity of the indicator. eg. OFAC SDN sanctions are the most severe indicators, and score at 100.
+`source_urls` | Link to original source when available. When no source URL is found, additional context may be found via Sigma's Terminal.
+
+Attribute detail for `locations`:
+
+Field | Description
+--------- | ----------- | 
+`addresses` | Address string relating to an entity. Format varies by spurce & jurisdiction.
+`country` | Country name.
+`country_code` | 2 letter [ISO-2 country code](https://www.iso.org/iso-3166-country-codes.html).
+`source_urls` | One of more source URLs relating to a Location, if available.
+`type` | Denotes how the location related to the company. Includes options for `trade` indicates the address was found in shipping records.
+
+
+The location `type` attribute currently includes two options:
+
+Type | Description
+--------- | ----------- | 
+`Trade` | Indicates the address was found in shipping records. | 
+`Operating` | Indicates the address was found in corporate records or third party company profiles. |
+`Unspecified` | Indicates the address found but no available information on address type. |
+
+
+### Entity updates 
+
+Bulk updates allows the bulk retrieval of all updates per bulk id.
+
+```shell
+curl "https://api.sigmaratings.com/v1/monitor/updates/bulk/:id"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+  {
+  "entity_id": "urn:sigma:entity:9699f250-65e8-42be-9a92-c5bbf7cf82af",
+  "updates": [
+    {
+      "type": "added",
+      "field": "indicator",
+      "value": {
+        "urn": "urn:sigma:indicator:XldOgLi_nFCDCw6Co5MDMrJcxIQ_ySwd_kX-JQh-Lbg=",
+        "name": "Business locations in HIGH risk countries",
+        "score": 40,
+        "category": "Jurisdiction",
+        "description": "Gazpurinvest Ooo operates in: Russia. High risk jurisdiction(s) based on Sigma Country Risk Ratings",
+        "source_urls": []
+      }
+    },
+    {
+      "type": "updated",
+      "field": "indicator",
+      "value": {
+        "urn": "urn:sigma:indicator:-1630dLcKwQIVVj26LZBraKJr7bQYjbsLil9zI57eQg=",
+        "name": "Business locations in HIGH risk countries",
+        "score": 40,
+        "category": "Jurisdiction",
+        "description": "Gazprom, Oao operates in: Russia. High risk jurisdiction(s) based on Sigma Country Risk Ratings",
+        "source_urls": []
+      }
+    }
+  ]
+}
+```
+
+#### HTTP Request
+
+`GET https://api.sigmaratings.com/v1/monitor/updates/bulk/:id`
+
+#### Response details
+
+Field |  Description 
+--------- |  -----------
+`entity_id` | A unique identifier for the entity.
+`updates` | An array of individual updates. See description below.
+
+_**Updates**_
+
+Field |  Description 
+--------- |  -----------
+`type` | The `type` attribute can be one of: `added`, `deleted`, `updated`.mation on address type. 
+`field` | The field that was modified.
+`value` | The value that was modified. Each field for the value object is defined below:
+
+Field | Description
+--------- | ----------- | 
+`urn` | 
+`name` |
+`score` | 
+`category` | 
+`description` | 
+`source_urls` | 
+
+
+### Bulk updates
 
