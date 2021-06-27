@@ -184,7 +184,6 @@ Each request from the [risk](#risk-scoring) endpoint generates and `audit_id` fi
 ## Risk Scoring
 
 
-
 ```shell
 curl "https://api.sigmaratings.com/v1/risk?q=YARDPOINT%20SALES%20LLP"
   -H "Authorization: c2lnbWFyYXRpbmdz" -d '{"filters":{"threshold":0.98, "mode":"sigma"}}'
@@ -372,7 +371,7 @@ Type | Description
 `Unspecified` | Indicates the address found but no available information on address type. |
 
 
-###  Risk Scoring
+## Bulk Risk Scoring
 ```shell
 cat entities.json
 {"id":"1", "name":"YARDPOINT SALES LLP"}
@@ -397,7 +396,7 @@ The Bulk Risk Scoring endpoint performs multiple requests of the [Risk Scoring](
 
 The Bulk Risk Scoring endpoint provides an `id`, which can be used to verify the status of the bulk request and retrieve the results of the request using the [Bulk Risk Scoring Status](#bulk-risk-scoring-status) endpoint.
 
-#### HTTP Request
+### HTTP Request
 
 `POST https://api.sigmaratings.com/v1/bulk`
 
@@ -408,7 +407,7 @@ to separate each entry, JSON entries must not include `\n`'s as delimiters.
 </aside>
 For more information about the ndjson specification, please refer to: <a href='http://ndjson.org'>ndjson.org</a>.
 
-#### Query Parameters
+### Query Parameters
 
 Parameter |  Description | Type | Default
 --------- |  ----------- | ------- | ----------
@@ -418,13 +417,13 @@ Parameter |  Description | Type | Default
 `countries` | A comma separated list of countries to filter by | string | empty
 `monitored` | A boolean value indicating whether entities should be monitored or not | boolean | false
 
-#### Available modes:
+### Available modes:
 
 - `scan` Provides an essential view of sanctions, PEPs, and adverse news available.
 - `basic` Scan, plus address, jurisdiction, association, and additional risks important in a more in depth review of risk .
 - `sigma` The full Sigma view of risk, including everything in basic plus trade and state owned enterprise indicators.
 
-#### Available Indicators:
+### Available Indicators:
 
 - `Address`
 - `Adverse Media`
@@ -441,7 +440,7 @@ Parameter |  Description | Type | Default
 - `Transparency`  
 - `Personnel`
 
-#### Request body
+### Request body
 > The following is an example of the input file required for the bulk request endpoint:
 
 ```json
@@ -451,7 +450,7 @@ Parameter |  Description | Type | Default
 
 The contents of the request body is a sequence of newline delimited JSON requests.
 
-### Risk Scoring Status
+## Risk Scoring Status
 ```shell
 curl "https://api.sigmaratings.com/v1/bulk/:id"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
@@ -609,11 +608,11 @@ The compressed zip file is composed of three files:
 
 The name of the zip file will be in the form of: `<id>.zip` where the `id` corresponds to the bulk request created.
 
-#### HTTP Request
+### HTTP Request
 
 `GET https://api.sigmaratings.com/v1/bulk/:id`
 
-#### Response details
+### Response details
 
 Field |  Description 
 --------- |  -----------
@@ -625,7 +624,7 @@ Field |  Description
 `batches` | Status of request indicating processing status.
 `settings` | Indicates the settings specified in the original request.
 
-#### Status
+### Status
 
 Name | Description
 -----| -------------
@@ -635,7 +634,7 @@ Name | Description
 `Completed` | Request was completed successfully.
 `Completed With Errors` | Request was completed and there are errors in the request. An errors.json file will be present.
 
-### Monitoring Bulk
+## Bulk Monitoring
 
 Monitoring provides the ability to continuously monitor a group of related entities that are grouped by a bulk id. To start monitoring a group of related entities use the 
 [bulk endpoint](#bulk-risk-scoring) and specify `true` on the `monitored` query parameter of the [bulk endpoint](#bulk-risk-scoring). Updates to the entities are calculated periodically and can be [retrieved individually](#monitor-entity-updates) or by [bulk id](#monitor-bulk-updates).
@@ -670,11 +669,11 @@ curl "https://api.sigmaratings.com/v1/monitor/bulk/:id"
 }
 ```
 
-#### HTTP Request
+### HTTP Request
 
 `GET https://api.sigmaratings.com/v1/monitor/bulk/:id`
 
-#### Response details
+### Response details
 
 Field |  Description 
 --------- |  -----------
@@ -687,7 +686,7 @@ Field |  Description
 `urn` | Status of request indicating processing status.
 
 
-### Entity details
+## Entity Monitoring
 
 Entity details provides the latest risk score calculated for the individual entity
 
@@ -813,7 +812,7 @@ Type | Description
 `Unspecified` | Indicates the address found but no available information on address type. |
 
 
-### Monitor Entity Updates 
+## Entity Monitoring Updates 
 
 The monitor entity updates endpoint allows retrieves individual updates for the specified entity. See [pagination](#pagination) section for reference.
 
@@ -857,11 +856,19 @@ curl "https://api.sigmaratings.com/v1/monitor/entity/updates/:id"
 }
 ```
 
-#### HTTP Request
+### HTTP Request
 
 `GET https://api.sigmaratings.com/v1/monitor/entity/updates/:id`
 
-#### Response details
+### Query Parameters
+
+Parameter |  Description | Type | Default
+--------- |  ----------- | ------- | ----------
+`since` | `YYYY-MM-DD` formatted string timestamp | string | 
+`to` | `YYYY-MM-DD` formatted string timestamp | string | 
+`page` | See [pagination](#pagination) section for reference. | string | 
+
+### Response details
 
 Field |  Description 
 --------- |  -----------
@@ -886,7 +893,7 @@ Field | Description
 `source_urls` | Source url of field that was modified if present.
 
 
-### Monitor Bulk Updates
+## Bulk Monitoring Updates
 
 Bulk updates allows the bulk retrieval of all updates per bulk id. See [pagination](#pagination) section for reference.
 
@@ -923,11 +930,11 @@ curl "https://api.sigmaratings.com/v1/monitor/bulk/updates/:id"
 }
 ```
 
-#### HTTP Request
+### HTTP Request
 
 `GET https://api.sigmaratings.com/v1/monitor/updates/bulk/:id`
 
-#### Response details
+### Response details
 
 Field |  Description 
 --------- |  -----------
