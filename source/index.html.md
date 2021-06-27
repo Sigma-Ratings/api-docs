@@ -9,6 +9,7 @@ toc_footers:
 
 includes:
   - errors
+  - pagination
 
 search: true
 
@@ -371,8 +372,6 @@ Type | Description
 `Unspecified` | Indicates the address found but no available information on address type. |
 
 
-## Bulk
-
 ###  Risk Scoring
 ```shell
 cat entities.json
@@ -452,7 +451,7 @@ Parameter |  Description | Type | Default
 
 The contents of the request body is a sequence of newline delimited JSON requests.
 
-#### Risk Scoring Status
+### Risk Scoring Status
 ```shell
 curl "https://api.sigmaratings.com/v1/bulk/:id"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
@@ -636,12 +635,12 @@ Name | Description
 `Completed` | Request was completed successfully.
 `Completed With Errors` | Request was completed and there are errors in the request. An errors.json file will be present.
 
-## Monitoring
-
-### Bulk details
+### Monitoring Bulk
 
 Monitoring provides the ability to continuously monitor a group of related entities that are grouped by a bulk id. To start monitoring a group of related entities use the 
-[bulk endpoint](#Bulk Risk Scoring) and specify `true` on the `monitored` query parameter of the [bulk endpoint](#Bulk Risk Scoring). Updates to the entities are calculated periodically and [retrievable individually](# Monitor Updates) or by [bulk id](# Bulk Monitor Updates).
+[bulk endpoint](#bulk-risk-scoring) and specify `true` on the `monitored` query parameter of the [bulk endpoint](#bulk-risk-scoring). Updates to the entities are calculated periodically and can be [retrieved individually](#monitor-entity-updates) or by [bulk id](#monitor-bulk-updates).
+
+The monitor bulk endpoint retrieves all the entities that are monitored for the specified bulk id. See [pagination](#pagination) section for reference.
 
 ```shell
 curl "https://api.sigmaratings.com/v1/monitor/bulk/:id"
@@ -667,7 +666,7 @@ curl "https://api.sigmaratings.com/v1/monitor/bulk/:id"
   ],
   "next": 1,
   "previous": null,
-  "total": 526
+  "total": 1
 }
 ```
 
@@ -753,7 +752,7 @@ curl "https://api.sigmaratings.com/v1/monitor/entity/:id"
       }
     ]
   },
-  "urn":"urn:sigma:entity:9699f250-65e8-42be-9a92-c5bbf7cf82af"
+  "id":"urn:sigma:entity:9699f250-65e8-42be-9a92-c5bbf7cf82af"
 }
 ```
 
@@ -765,7 +764,7 @@ curl "https://api.sigmaratings.com/v1/monitor/entity/:id"
 
 Field |  Description 
 --------- |  -----------
-`urn` | Unique resource identifier of entity
+`id` | Unique resource identifier of entity
 `monitored` | Indicates whether the entity is being monitored or not.
 `name` | Entity name
 `risk` | See detailed description of results object below.
@@ -814,12 +813,12 @@ Type | Description
 `Unspecified` | Indicates the address found but no available information on address type. |
 
 
-### Entity updates 
+### Monitor Entity Updates 
 
-Bulk updates allows the bulk retrieval of all updates per bulk id.
+The monitor entity updates endpoint allows retrieves individual updates for the specified entity. See [pagination](#pagination) section for reference.
 
 ```shell
-curl "https://api.sigmaratings.com/v1/monitor/updates/bulk/:id"
+curl "https://api.sigmaratings.com/v1/monitor/entity/updates/:id"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
 ```
 
@@ -860,7 +859,7 @@ curl "https://api.sigmaratings.com/v1/monitor/updates/bulk/:id"
 
 #### HTTP Request
 
-`GET https://api.sigmaratings.com/v1/monitor/updates/bulk/:id`
+`GET https://api.sigmaratings.com/v1/monitor/entity/updates/:id`
 
 #### Response details
 
@@ -879,13 +878,81 @@ Field |  Description
 
 Field | Description
 --------- | ----------- | 
-`urn` | 
-`name` |
-`score` | 
-`category` | 
-`description` | 
-`source_urls` | 
+`id` | A unique identifier for the value that was modified.
+`name` | Name of the field that was modified.
+`score` | Risk score of the field that was modified.
+`category` | One of [available categories](#available-indicators) for the field that was modified.
+`description` | Description of the field that was modified.
+`source_urls` | Source url of field that was modified if present.
 
 
-### Bulk updates
+### Monitor Bulk Updates
+
+Bulk updates allows the bulk retrieval of all updates per bulk id. See [pagination](#pagination) section for reference.
+
+```shell
+curl "https://api.sigmaratings.com/v1/monitor/bulk/updates/:id"
+  -H "Authorization: mZGVtbzpwQDU1dzByZA=="
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+  {
+  "bulk_id": "f557cc90-71c8-43b7-a7b1-f82923099f69",
+  "updates": [
+    {
+      "entity_id": "urn:sigma:entity:18968802-56e0-47d6-9adc-d708f1a51137",
+      "type": "updated",
+      "field": "indicator",
+      "value": {
+        "id": "urn:sigma:indicator:eHPKQdGUSoGJhkBt-NGj-oVhLyAH7LVG7pQf9QDlxiE=",
+        "name": "Business locations in HIGH risk countries",
+        "score": 40,
+        "category": "Jurisdiction",
+        "description": "operates in: Kenya. High risk jurisdiction(s) based on Sigma Country Risk Ratings",
+        "source_urls": []
+      },
+      "timestamp": "2021-06-24T10:35:20.079536Z"
+    }
+  ],
+  "next": null,
+  "previous": null,
+  "total": 1
+}
+```
+
+#### HTTP Request
+
+`GET https://api.sigmaratings.com/v1/monitor/updates/bulk/:id`
+
+#### Response details
+
+Field |  Description 
+--------- |  -----------
+`bulk_id` | A unique identifier for the group of related entities.
+`updates` | An array of individual updates. See description below.
+`next` | Indicates a positive integer to the next page of results.
+`previous` | Indicates a positive integer to the previous page of results.
+`total` | Indicates total number of updates.
+
+_**Updates**_
+
+Field |  Description 
+--------- |  -----------
+`entity_id` | A unique identifier for the entity.
+`timestamp` | A timestmap indicating when the update was created.
+`type` | The `type` attribute can be one of: `added`, `deleted`, `updated`.mation on address type. 
+`field` | The field that was modified.
+`value` | The value that was modified. Each field for the value object is defined below:
+
+Field | Description
+--------- | ----------- | 
+`id` | A unique identifier for the value that was modified.
+`name` | Name of the field that was modified.
+`score` | Risk score of the field that was modified.
+`category` | One of [available categories](#available-indicators) for the field that was modified.
+`description` | Description of the field that was modified.
+`source_urls` | Source url of field that was modified if present.
 
