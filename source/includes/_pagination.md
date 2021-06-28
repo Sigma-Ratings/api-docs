@@ -14,7 +14,7 @@ Field | Description | Default
 
 To navigate to the `next` or `previous` page, specify the `page` query parameter in the request.
 
-``` 
+```shell
 curl  'https://api.sigmaratings.com/v1/monitor/updates/bulk/424ff463-fd9b-4df8-99d8-f5ce2146502e?page=1' \
   --header 'Authorization: Basic mZGVtbzpwQDU1dzByZA==' \
   --header 'Content-Type: application/json'
