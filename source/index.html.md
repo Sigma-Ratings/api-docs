@@ -677,13 +677,13 @@ curl "https://api.sigmaratings.com/v1/monitor/bulk/:id"
 
 Field |  Description 
 --------- |  -----------
-`created_at` | A UUID to reference the request 
-`monitored` | [Status](#status) of request. 
-`name` | URL to download request submitted. A presigned url is a URL with a temporary access to the download location. This field is only present when the request is completed. 
-`task_id` | a
-`threshold` | Date when request was completed.
-`updated_at` | Date when request was created.
-`urn` | Status of request indicating processing status.
+`created_at` | Timestamp of when the entity was first created.
+`monitored` | Indicates whether entity is monitored or not.
+`name` | Name of entity.
+`bulk_id` | Unique identifier of bulk request.
+`threshold` | Threshold that was used on initial bulk upload.
+`updated_at` | Date when entity was last updated.
+`id` | Unique identifier of entity.
 
 
 ## Entity Monitoring
@@ -826,13 +826,13 @@ curl "https://api.sigmaratings.com/v1/monitor/entity/updates/:id"
 ```json
 
   {
-  "entity_id": "urn:sigma:entity:9699f250-65e8-42be-9a92-c5bbf7cf82af",
+  "id": "urn:sigma:entity:9699f250-65e8-42be-9a92-c5bbf7cf82af",
   "updates": [
     {
       "type": "added",
       "field": "indicator",
       "value": {
-        "urn": "urn:sigma:indicator:XldOgLi_nFCDCw6Co5MDMrJcxIQ_ySwd_kX-JQh-Lbg=",
+        "id": "urn:sigma:indicator:XldOgLi_nFCDCw6Co5MDMrJcxIQ_ySwd_kX-JQh-Lbg=",
         "name": "Business locations in HIGH risk countries",
         "score": 40,
         "category": "Jurisdiction",
@@ -844,7 +844,7 @@ curl "https://api.sigmaratings.com/v1/monitor/entity/updates/:id"
       "type": "updated",
       "field": "indicator",
       "value": {
-        "urn": "urn:sigma:indicator:-1630dLcKwQIVVj26LZBraKJr7bQYjbsLil9zI57eQg=",
+        "id": "urn:sigma:indicator:-1630dLcKwQIVVj26LZBraKJr7bQYjbsLil9zI57eQg=",
         "name": "Business locations in HIGH risk countries",
         "score": 40,
         "category": "Jurisdiction",
@@ -910,7 +910,7 @@ curl "https://api.sigmaratings.com/v1/monitor/bulk/updates/:id"
   "bulk_id": "f557cc90-71c8-43b7-a7b1-f82923099f69",
   "updates": [
     {
-      "entity_id": "urn:sigma:entity:18968802-56e0-47d6-9adc-d708f1a51137",
+      "id": "urn:sigma:entity:18968802-56e0-47d6-9adc-d708f1a51137",
       "type": "updated",
       "field": "indicator",
       "value": {
@@ -932,7 +932,7 @@ curl "https://api.sigmaratings.com/v1/monitor/bulk/updates/:id"
 
 ### HTTP Request
 
-`GET https://api.sigmaratings.com/v1/monitor/updates/bulk/:id`
+`GET https://api.sigmaratings.com/v1/monitor/bulk/updates/:id`
 
 ### Response details
 
@@ -948,7 +948,7 @@ _**Updates**_
 
 Field |  Description 
 --------- |  -----------
-`entity_id` | A unique identifier for the entity.
+`id` | A unique identifier for the entity.
 `timestamp` | A timestmap indicating when the update was created.
 `type` | The `type` attribute can be one of: `added`, `deleted`, `updated`.mation on address type. 
 `field` | The field that was modified.
