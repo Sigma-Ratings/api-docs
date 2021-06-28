@@ -757,7 +757,7 @@ curl "https://api.sigmaratings.com/v1/monitor/entity/:id"
 
 ### HTTP Request
 
-`GET https://api.sigmaratings.com/v1/monitor/bulk/:id`
+`GET https://api.sigmaratings.com/v1/monitor/entity/:id`
 
 ### Response details
 
