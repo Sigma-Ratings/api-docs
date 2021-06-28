@@ -817,7 +817,7 @@ Type | Description
 The monitor entity updates endpoint allows retrieves individual updates for the specified entity. See [pagination](#pagination) section for reference.
 
 ```shell
-curl "https://api.sigmaratings.com/v1/monitor/entity/updates/:id"
+curl "https://api.sigmaratings.com/v1/monitor/updates/entity/:id"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
 ```
 
@@ -858,7 +858,7 @@ curl "https://api.sigmaratings.com/v1/monitor/entity/updates/:id"
 
 ### HTTP Request
 
-`GET https://api.sigmaratings.com/v1/monitor/entity/updates/:id`
+`GET https://api.sigmaratings.com/v1/monitor/updates/entity/:id`
 
 ### Query Parameters
 
@@ -898,7 +898,7 @@ Field | Description
 Bulk updates allows the bulk retrieval of all updates per bulk id. See [pagination](#pagination) section for reference.
 
 ```shell
-curl "https://api.sigmaratings.com/v1/monitor/bulk/updates/:id"
+curl "https://api.sigmaratings.com/v1/monitor/updates/bulk/:id"
   -H "Authorization: mZGVtbzpwQDU1dzByZA=="
 ```
 
@@ -932,7 +932,7 @@ curl "https://api.sigmaratings.com/v1/monitor/bulk/updates/:id"
 
 ### HTTP Request
 
-`GET https://api.sigmaratings.com/v1/monitor/bulk/updates/:id`
+`GET https://api.sigmaratings.com/v1/monitor/updates/bulk/:id`
 
 ### Response details
 
